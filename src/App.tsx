@@ -1,121 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { NavigationProvider } from "./components/NavigationProvider";
+import { useEffect, useMemo, useState } from "react";
+import { SEO } from "./components/SEO";
+import { seo } from "./data/site";
+import { SiteLayout } from "./layouts/SiteLayout";
+import { About } from "./pages/About";
+import { Contact } from "./pages/Contact";
+import { Home } from "./pages/Home";
+import { Sectors } from "./pages/Sectors";
+import { Services } from "./pages/Services";
+import { getPathname } from "./utils/path";
 
-function App() {
-  const [count, setCount] = useState(0)
+const pages = {
+  "/": { component: <Home />, seo: seo.home },
+  "/services": { component: <Services />, seo: seo.services },
+  "/sectors": { component: <Sectors />, seo: seo.sectors },
+  "/about": { component: <About />, seo: seo.about },
+  "/contact": { component: <Contact />, seo: seo.contact },
+};
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+type PagePath = keyof typeof pages;
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+function resolvePath(pathname: string): PagePath {
+  const normalized = getPathname(pathname);
+  return normalized in pages ? (normalized as PagePath) : "/";
 }
 
-export default App
+function App() {
+  const [currentPath, setCurrentPath] = useState<PagePath>(() =>
+    resolvePath(window.location.pathname),
+  );
+
+  useEffect(() => {
+    function handlePopState() {
+      setCurrentPath(resolvePath(window.location.pathname));
+    }
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const navigate = useMemo(
+    () => (href: string) => {
+      const url = new URL(href, window.location.origin);
+      const nextPath = resolvePath(url.pathname);
+      const nextHref = `${nextPath}${url.hash}`;
+      const currentHref = `${currentPath}${window.location.hash}`;
+
+      if (nextHref !== currentHref) {
+        window.history.pushState({}, "", nextHref);
+        setCurrentPath(nextPath);
+
+        window.requestAnimationFrame(() => {
+          if (url.hash) {
+            const target = document.querySelector<HTMLElement>(url.hash);
+
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              return;
+            }
+          }
+
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    },
+    [currentPath],
+  );
+
+  const page = pages[currentPath];
+
+  return (
+    <NavigationProvider navigate={navigate}>
+      <SEO entry={page.seo} />
+      <SiteLayout currentPath={currentPath}>{page.component}</SiteLayout>
+    </NavigationProvider>
+  );
+}
+
+export default App;
