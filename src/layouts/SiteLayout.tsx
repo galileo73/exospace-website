@@ -70,19 +70,35 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
   const navigate = useNavigation();
   const closeTimerRef = useRef<number | null>(null);
 
-  const serviceColumns = useMemo(() => chunkItems(services, 2), []);
+  const serviceColumns = useMemo(() => chunkItems(services, 3), []);
   const sectorColumns = useMemo(() => chunkItems(sectors, 2), []);
 
   const searchEntries = useMemo<SearchEntry[]>(
     () => [
-      { title: "Services", meta: "Main page", href: "/services" },
+      { title: "Services & Solutions", meta: "Main page", href: "/services" },
       { title: "Sectors", meta: "Main page", href: "/sectors" },
-      { title: "About", meta: "Company profile", href: "/about" },
-      { title: "Contact", meta: "Get in touch", href: "/contact#inquiry-form" },
+      { title: "Delivery Model", meta: "Main page", href: "/delivery-model" },
+      { title: "Training", meta: "Main page", href: "/training" },
+      {
+        title: "Digital Solutions",
+        meta: "Main page",
+        href: "/digital-solutions",
+      },
+      { title: "About Us", meta: "Company profile", href: "/about" },
+      {
+        title: "Contact Us",
+        meta: "Get in touch",
+        href: "/contact#inquiry-form",
+      },
       ...services.map((service) => ({
         title: service.title,
         meta: "Service",
-        href: "/services",
+        href:
+          service.title === "Training and Knowledge Transfer"
+            ? "/training"
+            : service.title === "Digital Platforms and Web Engineering"
+              ? "/digital-solutions"
+              : "/services",
       })),
       ...sectors.map((sector) => ({
         title: sector.title,
@@ -97,7 +113,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
     const normalized = searchTerm.trim().toLowerCase();
 
     if (!normalized) {
-      return searchEntries.slice(0, 6);
+      return searchEntries.slice(0, 8);
     }
 
     return searchEntries
@@ -106,7 +122,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
           entry.title.toLowerCase().includes(normalized) ||
           entry.meta.toLowerCase().includes(normalized),
       )
-      .slice(0, 8);
+      .slice(0, 10);
   }, [searchEntries, searchTerm]);
 
   useEffect(() => {
@@ -200,22 +216,31 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Services & Solutions
                 </p>
                 <p className="mt-8 max-w-[260px] text-[17px] leading-8 text-steel-300">
-                  Explore ExoSpace support across engineering, validation,
-                  studies, digital delivery and knowledge transfer.
+                  Engineering support, technical assurance, training and digital
+                  capabilities for complex programme environments.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => handleSearchNavigate("/services")}
-                  className="mt-10 inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
-                >
-                  Services & Solutions
-                </button>
+                <div className="mt-10 flex flex-col gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleSearchNavigate("/services")}
+                    className="inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
+                  >
+                    View all services
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSearchNavigate("/delivery-model")}
+                    className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/15 px-6 text-[16px] font-semibold text-white transition hover:bg-white/[0.05]"
+                  >
+                    Delivery model
+                  </button>
+                </div>
               </div>
 
               <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
                 <div>
                   <p className="text-[17px] font-semibold text-signal-blue">
-                    Engineering Support
+                    Engineering and Assurance
                   </p>
                   <div className="mt-6 grid gap-5">
                     {(serviceColumns[0] ?? []).map((service) => (
@@ -233,7 +258,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
                 <div>
                   <p className="text-[17px] font-semibold text-signal-blue">
-                    Technical Assurance
+                    Operations and Security
                   </p>
                   <div className="mt-6 grid gap-5">
                     {(serviceColumns[1] ?? []).map((service) => (
@@ -251,19 +276,29 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
                 <div>
                   <p className="text-[17px] font-semibold text-signal-blue">
-                    Digital & Training
+                    Training and Digital
                   </p>
                   <div className="mt-6 grid gap-5">
-                    {(serviceColumns[2] ?? []).map((service) => (
-                      <button
-                        key={service.title}
-                        type="button"
-                        onClick={() => handleSearchNavigate("/services")}
-                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                      >
-                        {service.title}
-                      </button>
-                    ))}
+                    {(serviceColumns[2] ?? []).map((service) => {
+                      const href =
+                        service.title === "Training and Knowledge Transfer"
+                          ? "/training"
+                          : service.title ===
+                              "Digital Platforms and Web Engineering"
+                            ? "/digital-solutions"
+                            : "/services";
+
+                      return (
+                        <button
+                          key={service.title}
+                          type="button"
+                          onClick={() => handleSearchNavigate(href)}
+                          className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                        >
+                          {service.title}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -283,26 +318,24 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
           <div className="mx-auto w-full max-w-[1480px] px-5 md:px-8">
             <div className="grid gap-10 py-10 xl:grid-cols-[360px_1fr]">
               <div className="border-r border-signal-blue/[0.2] pr-10">
-                <p className="text-[18px] font-semibold text-white">
-                  Sectors & Programmes
-                </p>
+                <p className="text-[18px] font-semibold text-white">Sectors</p>
                 <p className="mt-8 max-w-[260px] text-[17px] leading-8 text-steel-300">
-                  Explore where ExoSpace can support technical organizations,
-                  secure infrastructures and complex programme environments.
+                  Explore the kinds of technical environments where ExoSpace can
+                  integrate as a complementary engineering partner.
                 </p>
                 <button
                   type="button"
                   onClick={() => handleSearchNavigate("/sectors")}
                   className="mt-10 inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
                 >
-                  Sectors & Programmes
+                  View all sectors
                 </button>
               </div>
 
               <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
                 <div>
                   <p className="text-[17px] font-semibold text-signal-blue">
-                    Space
+                    Space and Infrastructure
                   </p>
                   <div className="mt-6 grid gap-5">
                     {(sectorColumns[0] ?? []).map((sector) => (
@@ -320,7 +353,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
                 <div>
                   <p className="text-[17px] font-semibold text-signal-blue">
-                    Infrastructure
+                    Technical Organizations
                   </p>
                   <div className="mt-6 grid gap-5">
                     {(sectorColumns[1] ?? []).map((sector) => (
@@ -338,19 +371,32 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
                 <div>
                   <p className="text-[17px] font-semibold text-signal-blue">
-                    Organizations
+                    Related entry points
                   </p>
                   <div className="mt-6 grid gap-5">
-                    {(sectorColumns[2] ?? []).map((sector) => (
-                      <button
-                        key={sector.title}
-                        type="button"
-                        onClick={() => handleSearchNavigate("/sectors")}
-                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                      >
-                        {sector.title}
-                      </button>
-                    ))}
+                    <button
+                      type="button"
+                      onClick={() => handleSearchNavigate("/services")}
+                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                    >
+                      Services & Solutions
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSearchNavigate("/delivery-model")}
+                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                    >
+                      Delivery Model
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleSearchNavigate("/contact#inquiry-form")
+                      }
+                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                    >
+                      Contact ExoSpace
+                    </button>
                   </div>
                 </div>
               </div>
@@ -400,7 +446,10 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                 <button
                   type="button"
                   className={`inline-flex items-center gap-2 text-[15px] font-medium leading-none tracking-normal transition hover:text-signal-blue focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-blue ${
-                    currentPath === "/services" || activePanel === "services"
+                    currentPath === "/services" ||
+                    currentPath === "/training" ||
+                    currentPath === "/digital-solutions" ||
+                    activePanel === "services"
                       ? "text-signal-blue"
                       : "text-carbon-900"
                   }`}
@@ -467,7 +516,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                         : "text-carbon-900"
                     }`}
                   >
-                    {item.label === "Contact" ? "Contact Us" : item.label}
+                    {item.label}
                   </SiteLink>
                 ))}
 
@@ -494,7 +543,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
           {activePanel ? (
             <div
-              className="absolute inset-x-0 top-full h-3 z-40"
+              className="absolute inset-x-0 top-full z-40 h-3"
               onMouseEnter={() => openPanel(activePanel)}
               onMouseLeave={scheduleClosePanel}
             />
@@ -509,20 +558,43 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
             className="border-t border-carbon-950/[0.08] bg-[linear-gradient(180deg,rgba(242,246,250,0.98),rgba(231,238,245,0.98))] lg:hidden"
           >
             <div className="mx-auto grid max-w-7xl gap-2 px-5 py-5 md:px-8">
-              {navigation.map((item) => (
-                <SiteLink
-                  key={item.href}
-                  href={
-                    item.href === "/contact"
-                      ? "/contact#inquiry-form"
-                      : item.href
-                  }
-                  onClick={closeMenu}
-                  className="rounded-md px-2 py-3 text-base font-medium text-carbon-900 hover:bg-carbon-950/[0.04] hover:text-signal-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-blue"
-                >
-                  {item.label === "Contact" ? "Contact Us" : item.label}
-                </SiteLink>
-              ))}
+              <SiteLink
+                href="/services"
+                onClick={closeMenu}
+                className="rounded-md px-2 py-3 text-base font-medium text-carbon-900 hover:bg-carbon-950/[0.04] hover:text-signal-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-blue"
+              >
+                Services & Solutions
+              </SiteLink>
+              <SiteLink
+                href="/training"
+                onClick={closeMenu}
+                className="rounded-md px-2 py-3 text-base font-medium text-carbon-900 hover:bg-carbon-950/[0.04] hover:text-signal-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-blue"
+              >
+                Training
+              </SiteLink>
+              <SiteLink
+                href="/digital-solutions"
+                onClick={closeMenu}
+                className="rounded-md px-2 py-3 text-base font-medium text-carbon-900 hover:bg-carbon-950/[0.04] hover:text-signal-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-blue"
+              >
+                Digital Solutions
+              </SiteLink>
+              {navigation
+                .filter((item) => item.href !== "/services")
+                .map((item) => (
+                  <SiteLink
+                    key={item.href}
+                    href={
+                      item.href === "/contact"
+                        ? "/contact#inquiry-form"
+                        : item.href
+                    }
+                    onClick={closeMenu}
+                    className="rounded-md px-2 py-3 text-base font-medium text-carbon-900 hover:bg-carbon-950/[0.04] hover:text-signal-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-blue"
+                  >
+                    {item.label}
+                  </SiteLink>
+                ))}
               <button
                 type="button"
                 onClick={() => {
@@ -613,23 +685,72 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
           <div className="max-w-2xl">
             <p className="text-lg font-semibold text-white">{company.name}</p>
             <p className="mt-3 text-sm leading-6 text-steel-400">
-              Senior engineering and consulting support for complex technical
-              programmes.
+              Senior engineering and consulting support for space,
+              mission-critical and digital technical programmes.
             </p>
             <p className="mt-4 text-sm text-steel-400">{company.location}</p>
           </div>
-          <div className="grid gap-3 text-sm text-steel-300 sm:grid-cols-2 lg:text-right">
-            {navigation.map((item) => (
+
+          <div className="grid gap-8 text-sm text-steel-300 sm:grid-cols-3 lg:text-right">
+            <div className="grid gap-3">
               <SiteLink
-                key={item.href}
-                href={item.href}
+                href="/services"
                 className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
               >
-                {item.label}
+                Services & Solutions
               </SiteLink>
-            ))}
+              <SiteLink
+                href="/delivery-model"
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                Delivery Model
+              </SiteLink>
+              <SiteLink
+                href="/sectors"
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                Sectors
+              </SiteLink>
+            </div>
+
+            <div className="grid gap-3">
+              <SiteLink
+                href="/training"
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                Training
+              </SiteLink>
+              <SiteLink
+                href="/digital-solutions"
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                Digital Solutions
+              </SiteLink>
+              <SiteLink
+                href="/about"
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                About Us
+              </SiteLink>
+            </div>
+
+            <div className="grid gap-3">
+              <SiteLink
+                href="/contact#inquiry-form"
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                Contact Us
+              </SiteLink>
+              <a
+                href={`mailto:${company.email}`}
+                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              >
+                {company.email}
+              </a>
+            </div>
           </div>
         </div>
+
         <div className="border-t border-white/10 px-5 py-5 text-center text-xs text-steel-500">
           Copyright 2026 ExoSpace Engineering & Consulting s.r.o. All rights
           reserved.

@@ -1,6 +1,7 @@
 import { CTASection } from "../components/CTASection";
 import { PageHero } from "../components/PageHero";
 import { digitalCapabilities } from "../data/site";
+import { SiteLink } from "../components/SiteLink";
 
 export function DigitalSolutions() {
   return (
@@ -54,6 +55,51 @@ export function DigitalSolutions() {
               The strongest fit is where digital work must connect to a serious
               engineering, programme or mission-critical context.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-carbon-950">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div>
+            <h2 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
+              Related entry points
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <SiteLink
+              href="/services"
+              className="rounded-md border border-white/10 bg-white/[0.03] p-6 transition hover:border-signal-blue/40 hover:bg-white/[0.05]"
+            >
+              <span className="block text-xl font-semibold text-white">
+                Services
+              </span>
+              <span className="mt-3 block text-base leading-7 text-steel-300">
+                Explore the wider ExoSpace capability framework.
+              </span>
+            </SiteLink>
+            <SiteLink
+              href="/delivery-model"
+              className="rounded-md border border-white/10 bg-white/[0.03] p-6 transition hover:border-signal-blue/40 hover:bg-white/[0.05]"
+            >
+              <span className="block text-xl font-semibold text-white">
+                Delivery Model
+              </span>
+              <span className="mt-3 block text-base leading-7 text-steel-300">
+                See how digital support can fit a structured partnership model.
+              </span>
+            </SiteLink>
+            <SiteLink
+              href="/contact#inquiry-form"
+              className="rounded-md border border-white/10 bg-white/[0.03] p-6 transition hover:border-signal-blue/40 hover:bg-white/[0.05]"
+            >
+              <span className="block text-xl font-semibold text-white">
+                Contact
+              </span>
+              <span className="mt-3 block text-base leading-7 text-steel-300">
+                Discuss a digital platform or technical web need.
+              </span>
+            </SiteLink>
           </div>
         </div>
       </section>

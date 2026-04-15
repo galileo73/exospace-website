@@ -1,6 +1,7 @@
 import { CTASection } from "../components/CTASection";
 import { PageHero } from "../components/PageHero";
 import { deliveryPrinciples } from "../data/site";
+import { SiteLink } from "../components/SiteLink";
 
 export function DeliveryModel() {
   return (
@@ -80,6 +81,51 @@ export function DeliveryModel() {
                 phases, migrations or technical restructuring.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-carbon-950">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div>
+            <h2 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
+              Related entry points
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <SiteLink
+              href="/services"
+              className="rounded-md border border-white/10 bg-white/[0.03] p-6 transition hover:border-signal-blue/40 hover:bg-white/[0.05]"
+            >
+              <span className="block text-xl font-semibold text-white">
+                Services
+              </span>
+              <span className="mt-3 block text-base leading-7 text-steel-300">
+                Explore engineering, assurance, training and digital support.
+              </span>
+            </SiteLink>
+            <SiteLink
+              href="/sectors"
+              className="rounded-md border border-white/10 bg-white/[0.03] p-6 transition hover:border-signal-blue/40 hover:bg-white/[0.05]"
+            >
+              <span className="block text-xl font-semibold text-white">
+                Sectors
+              </span>
+              <span className="mt-3 block text-base leading-7 text-steel-300">
+                See the environments where the model fits best.
+              </span>
+            </SiteLink>
+            <SiteLink
+              href="/contact#inquiry-form"
+              className="rounded-md border border-white/10 bg-white/[0.03] p-6 transition hover:border-signal-blue/40 hover:bg-white/[0.05]"
+            >
+              <span className="block text-xl font-semibold text-white">
+                Contact
+              </span>
+              <span className="mt-3 block text-base leading-7 text-steel-300">
+                Discuss the most suitable support structure.
+              </span>
+            </SiteLink>
           </div>
         </div>
       </section>
