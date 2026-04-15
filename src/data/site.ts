@@ -26,7 +26,7 @@ export const company = {
   name: "ExoSpace Engineering & Consulting s.r.o.",
   shortName: "ExoSpace",
   location: "Prague, Czech Republic",
-  email: "enginnering@exospace.space",
+  email: "engineering@exospace.space",
   website: "https://www.exospace.space",
   tagline:
     "Senior engineering and consulting support for complex technical programmes.",

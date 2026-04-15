@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.exospace.eu/sitemap.xml
+Sitemap: https://www.exospace.space/sitemap.xml

@@ -2,28 +2,53 @@ import { useState, type FormEvent } from "react";
 import { PageHero } from "../components/PageHero";
 import { company, services } from "../data/site";
 
+function encodeForm(data: Record<string, string>) {
+  return new URLSearchParams(data).toString();
+}
+
 export function Contact() {
   const [status, setStatus] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const subject = encodeURIComponent("ExoSpace inquiry");
-    const body = encodeURIComponent(
-      [
-        `Name: ${formData.get("name") ?? ""}`,
-        `Email: ${formData.get("email") ?? ""}`,
-        `Organization: ${formData.get("organization") ?? ""}`,
-        `Area of support: ${formData.get("service") ?? ""}`,
-        "",
-        `${formData.get("message") ?? ""}`,
-      ].join("\n"),
-    );
 
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
-    setStatus(
-      `Thank you. If your email client did not open, please send the inquiry to ${company.email}.`,
-    );
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      "form-name": "contact",
+      "bot-field": String(formData.get("bot-field") ?? ""),
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      organization: String(formData.get("organization") ?? ""),
+      service: String(formData.get("service") ?? ""),
+      message: String(formData.get("message") ?? ""),
+    };
+
+    try {
+      setIsSubmitting(true);
+      setStatus("");
+
+      await fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: encodeForm(payload),
+      });
+
+      form.reset();
+      setStatus(
+        "Thanks. Your message has been sent. ExoSpace will get back to you soon.",
+      );
+    } catch {
+      setStatus(
+        `There was a problem sending the form. Please email ${company.email} directly.`,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -76,9 +101,21 @@ export function Contact() {
           </aside>
 
           <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
             className="grid gap-5 rounded-md border border-carbon-950/[0.15] bg-carbon-950 p-6 text-white md:p-8"
             onSubmit={handleSubmit}
           >
+            <input type="hidden" name="form-name" value="contact" />
+            <p className="hidden">
+              <label>
+                Do not fill this out if you are human:{" "}
+                <input name="bot-field" />
+              </label>
+            </p>
+
             <div className="grid gap-5 md:grid-cols-2">
               <label className="grid gap-2 text-sm font-medium">
                 Name
@@ -135,9 +172,10 @@ export function Contact() {
             </label>
             <button
               type="submit"
-              className="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-signal-teal px-6 text-sm font-semibold text-carbon-950 transition hover:bg-steel-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+              disabled={isSubmitting}
+              className="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-signal-teal px-6 text-sm font-semibold text-carbon-950 transition hover:bg-steel-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Send inquiry
+              {isSubmitting ? "Sending..." : "Send inquiry"}
             </button>
             {status ? (
               <p className="rounded-md border border-signal-teal/40 bg-signal-teal/10 p-4 text-sm leading-6 text-steel-100">

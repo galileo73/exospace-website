@@ -43,15 +43,15 @@ export function CookieBanner() {
 
   const summary = useMemo(() => {
     if (preferences.analytics && preferences.personalization) {
-      return "Analytics and personalization cookies are enabled.";
+      return "Analytics and personalization preferences are enabled.";
     }
 
     if (preferences.analytics) {
-      return "Analytics cookies are enabled.";
+      return "Analytics preferences are enabled.";
     }
 
     if (preferences.personalization) {
-      return "Personalization cookies are enabled.";
+      return "Personalization preferences are enabled.";
     }
 
     return "Only necessary cookies are enabled.";
@@ -96,9 +96,10 @@ export function CookieBanner() {
               We value your privacy
             </h2>
             <p className="mt-4 text-sm leading-7 text-steel-300 md:text-base">
-              We use cookies to enhance your browsing experience, serve
-              personalized ads or content, and analyze our traffic. By clicking
-              "Accept All", you consent to our use of cookies.
+              We use necessary cookies to keep the site working. Optional
+              analytics and personalization settings can help us improve the
+              website experience. You can accept all, reject optional cookies,
+              or choose your preferences.
             </p>
             {customizing ? (
               <div className="mt-5 grid gap-3 rounded-md border border-white/[0.12] bg-white/[0.03] p-4 md:max-w-3xl">
@@ -145,7 +146,8 @@ export function CookieBanner() {
                       Personalization
                     </span>
                     <span className="mt-1 block text-sm text-steel-300">
-                      Allows a more tailored content and browsing experience.
+                      Stores optional preferences to improve the browsing
+                      experience.
                     </span>
                   </span>
                   <input
@@ -188,14 +190,14 @@ export function CookieBanner() {
               onClick={handleRejectAll}
               className="inline-flex min-h-11 items-center justify-center rounded-md border border-signal-blue/70 px-6 text-sm font-semibold text-steel-100 transition hover:border-signal-blue hover:bg-white/[0.05]"
             >
-              Reject All
+              Reject optional
             </button>
             <button
               type="button"
               onClick={handleAcceptAll}
               className="inline-flex min-h-11 items-center justify-center rounded-md bg-signal-blue px-6 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(105,169,221,0.28)] transition hover:brightness-110"
             >
-              Accept All
+              Accept all
             </button>
           </div>
         </div>
