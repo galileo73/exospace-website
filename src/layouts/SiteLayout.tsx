@@ -679,81 +679,76 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
         </div>
       ) : null}
 
-      <footer className="relative overflow-hidden border-t border-white/10 bg-carbon-950">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal-teal/[0.45] to-transparent" />
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:px-8 lg:grid-cols-[1fr_auto]">
-          <div className="max-w-2xl">
-            <p className="text-lg font-semibold text-white">{company.name}</p>
-            <p className="mt-3 text-sm leading-6 text-steel-400">
+      <footer className="border-t border-white/10 bg-carbon-950">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:px-8 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="max-w-xl">
+            <p className="text-xl font-semibold text-white">{company.name}</p>
+            <p className="mt-4 text-base leading-7 text-steel-400">
               Senior engineering and consulting support for space,
               mission-critical and digital technical programmes.
             </p>
-            <p className="mt-4 text-sm text-steel-400">{company.location}</p>
-          </div>
-
-          <div className="grid gap-8 text-sm text-steel-300 sm:grid-cols-3 lg:text-right">
-            <div className="grid gap-3">
-              <SiteLink
-                href="/services"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                Services & Solutions
-              </SiteLink>
-              <SiteLink
-                href="/delivery-model"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                Delivery Model
-              </SiteLink>
-              <SiteLink
-                href="/sectors"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                Sectors
-              </SiteLink>
-            </div>
-
-            <div className="grid gap-3">
-              <SiteLink
-                href="/training"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                Training
-              </SiteLink>
-              <SiteLink
-                href="/digital-solutions"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                Digital Solutions
-              </SiteLink>
-              <SiteLink
-                href="/about"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                About Us
-              </SiteLink>
-            </div>
-
-            <div className="grid gap-3">
-              <SiteLink
-                href="/contact#inquiry-form"
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
-              >
-                Contact Us
-              </SiteLink>
+            <div className="mt-6 space-y-2 text-sm text-steel-400">
+              <p>{company.location}</p>
               <a
                 href={`mailto:${company.email}`}
-                className="hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+                className="inline-block transition hover:text-signal-teal"
               >
                 {company.email}
               </a>
             </div>
           </div>
+
+          <div className="grid gap-y-3 gap-x-8 text-sm text-steel-300 sm:grid-cols-2 lg:justify-self-end">
+            <SiteLink
+              href="/services"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+            >
+              Services & Solutions
+            </SiteLink>
+            <SiteLink
+              href="/training"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+            >
+              Training
+            </SiteLink>
+            <SiteLink
+              href="/delivery-model"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+            >
+              Delivery Model
+            </SiteLink>
+            <SiteLink
+              href="/digital-solutions"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+            >
+              Digital Solutions
+            </SiteLink>
+            <SiteLink
+              href="/sectors"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+            >
+              Sectors
+            </SiteLink>
+            <SiteLink
+              href="/about"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+            >
+              About Us
+            </SiteLink>
+            <SiteLink
+              href="/contact#inquiry-form"
+              className="transition hover:text-signal-teal focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal sm:col-span-2"
+            >
+              Contact Us
+            </SiteLink>
+          </div>
         </div>
 
-        <div className="border-t border-white/10 px-5 py-5 text-center text-xs text-steel-500">
-          Copyright 2026 ExoSpace Engineering & Consulting s.r.o. All rights
-          reserved.
+        <div className="border-t border-white/10">
+          <div className="mx-auto max-w-7xl px-5 py-5 text-center text-xs text-steel-500 md:px-8">
+            Copyright 2026 ExoSpace Engineering & Consulting s.r.o. All rights
+            reserved.
+          </div>
         </div>
       </footer>
     </div>
