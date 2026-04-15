@@ -160,7 +160,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
   function renderMegaPanel(panel: PanelKey) {
     if (panel === "services") {
       return (
-        <div className="absolute left-0 top-full z-50 mt-3 w-[min(1100px,calc(100vw-64px))] overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]">
+        <div className="absolute left-1/2 top-full z-50 mt-3 w-[min(1160px,calc(100vw-32px))] -translate-x-1/2 overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]">
           <div className="grid gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
             <div className="border-r border-signal-blue/[0.2] pr-10">
               <p className="text-[18px] font-semibold text-white">
@@ -238,7 +238,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
     if (panel === "sectors") {
       return (
-        <div className="absolute left-0 top-full z-50 mt-3 w-[min(1100px,calc(100vw-64px))] overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]">
+        <div className="absolute left-1/2 top-full z-50 mt-3 w-[min(1160px,calc(100vw-32px))] -translate-x-1/2 overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]">
           <div className="grid gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
             <div className="border-r border-signal-blue/[0.2] pr-10">
               <p className="text-[18px] font-semibold text-white">
@@ -346,7 +346,6 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
             <div className="hidden items-center justify-end gap-9 lg:flex lg:flex-1">
               <div
-                className="relative"
                 onMouseEnter={() => setActivePanel("services")}
                 onMouseLeave={handlePanelLeave}
               >
@@ -373,7 +372,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                 </button>
 
                 {activePanel === "services" ? (
-                  <div className="absolute left-0 top-full h-3 w-full" />
+                  <div className="absolute left-0 right-0 top-full h-3" />
                 ) : null}
 
                 {activePanel === "services"
@@ -382,7 +381,6 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
               </div>
 
               <div
-                className="relative"
                 onMouseEnter={() => setActivePanel("sectors")}
                 onMouseLeave={handlePanelLeave}
               >
@@ -409,7 +407,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                 </button>
 
                 {activePanel === "sectors" ? (
-                  <div className="absolute left-0 top-full h-3 w-full" />
+                  <div className="absolute left-0 right-0 top-full h-3" />
                 ) : null}
 
                 {activePanel === "sectors" ? renderMegaPanel("sectors") : null}
