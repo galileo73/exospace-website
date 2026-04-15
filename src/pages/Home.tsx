@@ -1,191 +1,266 @@
-import { ButtonLink } from "../components/ButtonLink";
 import { CTASection } from "../components/CTASection";
-import { SectionHeader } from "../components/SectionHeader";
-import { SpaceBackdrop } from "../components/SpaceBackdrop";
-import { SiteLink } from "../components/SiteLink";
 import { company, differentiators, sectors, services } from "../data/site";
-
-const heroSignals = [
-  "Systems engineering",
-  "Validation and reviews",
-  "Technical studies",
-  "Digital support",
-];
+import { SiteLink } from "../components/SiteLink";
 
 export function Home() {
+  const featuredServices = services.slice(0, 6);
+  const featuredSectors = sectors.slice(0, 4);
+
   return (
     <>
-      <section className="relative isolate min-h-[78svh] overflow-hidden bg-carbon-950">
-        <SpaceBackdrop density={260} className="opacity-100" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,7,13,0.72)_0%,rgba(5,11,19,0.4)_48%,rgba(3,7,13,0.16)_100%)]" />
-        <div className="absolute inset-0 bg-technical-grid bg-[size:44px_44px] opacity-[0.08]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-carbon-950 via-carbon-950/70 to-transparent" />
-
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-24 md:px-8 lg:grid-cols-[1fr_22rem] lg:items-end lg:py-32">
-          <div className="max-w-4xl">
-            <div className="mb-6 flex w-fit items-center gap-3 rounded-md border border-white/[0.15] bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase text-steel-200 shadow-line backdrop-blur-md">
-              <span className="h-2 w-2 rounded-full bg-signal-blue shadow-[0_0_18px_rgba(105,169,221,0.7)]" />
-              Prague-based engineering consultancy
-            </div>
-            <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl lg:text-7xl">
-              Senior engineering support for complex technical programmes.
-            </h1>
-            <p className="mt-7 max-w-3xl text-lg leading-8 text-steel-200 md:text-xl">
-              {company.shortName} supports demanding engineering work from
-              requirements and architecture to validation, technical reviews,
-              studies and focused digital support for technical organizations.
+      <section className="relative overflow-hidden bg-carbon-950">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(38,120,196,0.22),transparent_36%),radial-gradient(circle_at_top_right,rgba(0,212,201,0.14),transparent_28%)]" />
+        <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-24 md:px-8 md:pb-28 md:pt-28">
+          <div className="max-w-5xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-signal-teal">
+              Prague, Czech Republic
             </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/contact">
-                Request an introductory discussion
-              </ButtonLink>
-              <ButtonLink href="/services" variant="secondary">
-                View services
-              </ButtonLink>
+            <h1 className="mt-6 max-w-6xl text-5xl font-semibold leading-[1.02] tracking-tight text-white md:text-7xl">
+              Senior engineering support for space, mission-critical and digital
+              technical programmes.
+            </h1>
+            <p className="mt-8 max-w-3xl text-lg leading-8 text-steel-300 md:text-xl">
+              {company.shortName} operates as a complementary engineering
+              partner for organizations that need accountable technical support,
+              continuity of delivery and a company-based model rather than
+              isolated staffing.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <SiteLink
+                href="/contact#inquiry-form"
+                className="inline-flex min-h-12 items-center justify-center rounded-md bg-signal-teal px-6 text-base font-semibold text-carbon-950 transition hover:brightness-110"
+              >
+                Discuss a support need
+              </SiteLink>
+              <SiteLink
+                href="/delivery-model"
+                className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/15 px-6 text-base font-semibold text-white transition hover:bg-white/[0.05]"
+              >
+                Explore the delivery model
+              </SiteLink>
             </div>
           </div>
 
-          <aside className="rounded-md border border-white/[0.15] bg-[linear-gradient(180deg,rgba(3,7,13,0.82),rgba(7,16,24,0.72))] p-5 shadow-glow backdrop-blur-md">
-            <p className="text-sm font-semibold uppercase text-signal-teal">
-              Focus areas
-            </p>
-            <div className="mt-5 grid gap-3">
-              {heroSignals.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center justify-between gap-4 border-t border-white/10 pt-3 text-sm text-steel-200"
-                >
-                  <span>{item}</span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-signal-blue" />
-                </div>
-              ))}
+          <div className="mt-16 grid gap-6 md:grid-cols-3">
+            <div className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Positioning
+              </p>
+              <p className="mt-4 text-lg font-medium leading-8 text-white">
+                A complementary engineering partner designed for demanding
+                technical contexts.
+              </p>
             </div>
-            <p className="mt-6 text-sm leading-6 text-steel-400">
-              Built for selective, high-value support across tenders, reviews,
-              delivery phases and technical decision points.
-            </p>
-          </aside>
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-5 pb-10 md:px-8">
-          <div className="grid gap-3 border-t border-white/[0.15] pt-5 text-sm text-steel-300 md:grid-cols-3">
-            <p>Requirements, architecture and interface control</p>
-            <p>Verification, validation and operational readiness</p>
-            <p>Independent technical reviews and expert assessments</p>
+            <div className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Coverage
+              </p>
+              <p className="mt-4 text-lg font-medium leading-8 text-white">
+                Systems engineering, validation, technical studies, security,
+                training and digital solutions.
+              </p>
+            </div>
+            <div className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Delivery Logic
+              </p>
+              <p className="mt-4 text-lg font-medium leading-8 text-white">
+                Company-based, scalable and suitable for ongoing work,
+                procurements and future tenders.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="bg-white text-carbon-950">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 md:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase text-carbon-800">
-              Credibility
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-signal-blue">
+              Why ExoSpace
             </p>
-            <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-              A focused technical partner for high-value engineering work.
+            <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">
+              A stronger fit when the work needs more than a generic resource.
             </h2>
           </div>
-          <div className="grid gap-6 text-base leading-7 text-carbon-800 md:grid-cols-3">
-            <p>
-              ExoSpace provides senior engineering and consulting support for
-              space, mission-critical and technical programmes.
-            </p>
-            <p>
-              It helps programme managers, engineering directors and specialist
-              teams move through complex technical decisions with clearer
-              evidence.
-            </p>
-            <p>
-              Engagements can support ongoing activities, procurements, tenders,
-              technical studies, validation work and knowledge transfer.
-            </p>
+
+          <div className="grid gap-5">
+            {differentiators.map((item) => (
+              <div
+                key={item}
+                className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] px-5 py-5"
+              >
+                <p className="text-base leading-7 text-carbon-900">{item}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-carbon-900">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal-teal/[0.45] to-transparent" />
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-          <SectionHeader
-            eyebrow="Core services"
-            title="Six practical pillars for demanding technical work."
-            intro="The offer is selective by design: senior support where technical clarity, review maturity and delivery discipline matter."
-          />
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <SiteLink
+      <section className="bg-carbon-950">
+        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-signal-teal">
+              Capability Framework
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight text-white md:text-4xl">
+              Practical engineering support across the programme lifecycle.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-steel-300">
+              ExoSpace combines engineering depth, technical assurance, training
+              and digital support in a way that fits complex programme
+              environments rather than isolated one-off tasks.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {featuredServices.map((service) => (
+              <article
                 key={service.title}
-                href="/services"
-                className="group rounded-md border border-white/10 bg-white/[0.03] p-6 transition duration-200 hover:-translate-y-1 hover:border-signal-teal/60 hover:bg-white/[0.06] hover:shadow-glow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-teal"
+                className="rounded-md border border-white/10 bg-white/[0.03] p-6 shadow-line"
               >
                 <h3 className="text-xl font-semibold text-white">
                   {service.title}
                 </h3>
-                <p className="mt-4 text-sm leading-6 text-steel-300">
+                <p className="mt-4 text-base leading-7 text-steel-300">
                   {service.summary}
                 </p>
-                <span className="mt-6 inline-flex text-sm font-semibold text-signal-teal">
-                  Read service scope
-                </span>
-              </SiteLink>
+              </article>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="relative overflow-hidden bg-carbon-950">
-        <div className="absolute inset-0 bg-technical-grid bg-[size:54px_54px] opacity-[0.08]" />
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader
-            eyebrow="Why ExoSpace"
-            title="Boutique attention, senior technical delivery."
-            intro="ExoSpace is designed for organizations that need clear technical support without the overhead of a large consultancy or the looseness of a generic contractor."
-          />
-          <div className="grid gap-4">
-            {differentiators.map((item, index) => (
-              <div
-                key={item}
-                className="grid gap-4 rounded-md border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm sm:grid-cols-[4rem_1fr]"
-              >
-                <span className="text-sm font-semibold text-signal-teal">
-                  0{index + 1}
-                </span>
-                <p className="text-lg leading-7 text-steel-100">{item}</p>
-              </div>
-            ))}
+          <div className="mt-10">
+            <SiteLink
+              href="/services"
+              className="inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-base font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
+            >
+              View all services and solutions
+            </SiteLink>
           </div>
         </div>
       </section>
 
       <section className="bg-white text-carbon-950">
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-          <SectionHeader
-            eyebrow="Sectors"
-            title="Support for technical organizations and programme environments."
-            intro="ExoSpace is most relevant where engineering judgement, structured validation and clear communication need to travel together."
-            tone="dark"
-          />
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {sectors.map((sector) => (
-              <div
-                key={sector.title}
-                className="border-t border-carbon-950/20 pt-5"
-              >
-                <h3 className="text-xl font-semibold">{sector.title}</h3>
-                <p className="mt-4 text-sm leading-6 text-carbon-800">
-                  {sector.support}
-                </p>
-              </div>
-            ))}
+        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.12em] text-signal-blue">
+                Where ExoSpace Fits
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">
+                Support for technical organizations, infrastructure and
+                demanding programme contexts.
+              </h2>
+              <p className="mt-6 text-base leading-7 text-carbon-800">
+                The strongest fit is where technical delivery needs engineering
+                judgement, continuity and structured support across interfaces,
+                evidence, reviews and operations.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {featuredSectors.map((sector) => (
+                <article
+                  key={sector.title}
+                  className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6"
+                >
+                  <h3 className="text-xl font-semibold">{sector.title}</h3>
+                  <p className="mt-4 text-base leading-7 text-carbon-800">
+                    {sector.support}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
+
           <div className="mt-10">
-            <ButtonLink href="/sectors">Explore sectors</ButtonLink>
+            <SiteLink
+              href="/sectors"
+              className="inline-flex min-h-12 items-center justify-center rounded-md border border-carbon-950/15 px-6 text-base font-semibold text-carbon-950 transition hover:bg-carbon-950 hover:text-white"
+            >
+              Explore sectors and programme contexts
+            </SiteLink>
           </div>
         </div>
       </section>
 
-      <CTASection />
+      <section className="bg-carbon-950">
+        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+          <div className="grid gap-6 md:grid-cols-3">
+            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Delivery Model
+              </p>
+              <h3 className="mt-4 text-2xl font-semibold text-white">
+                Company-based and scalable
+              </h3>
+              <p className="mt-4 text-base leading-7 text-steel-300">
+                ExoSpace can support capacity-based delivery, complementary
+                engineering reinforcement and defined work packages where scope
+                and interfaces are mature enough.
+              </p>
+              <div className="mt-6">
+                <SiteLink
+                  href="/delivery-model"
+                  className="text-sm font-semibold text-signal-teal hover:text-white"
+                >
+                  Learn more about the delivery model
+                </SiteLink>
+              </div>
+            </article>
+
+            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Training
+              </p>
+              <h3 className="mt-4 text-2xl font-semibold text-white">
+                Knowledge transfer that stays useful
+              </h3>
+              <p className="mt-4 text-base leading-7 text-steel-300">
+                Training can be delivered as a standalone course, embedded in a
+                project context or used as continuous knowledge transfer for a
+                team.
+              </p>
+              <div className="mt-6">
+                <SiteLink
+                  href="/training"
+                  className="text-sm font-semibold text-signal-teal hover:text-white"
+                >
+                  Explore training support
+                </SiteLink>
+              </div>
+            </article>
+
+            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Digital Solutions
+              </p>
+              <h3 className="mt-4 text-2xl font-semibold text-white">
+                Web, integration and trusted workflows
+              </h3>
+              <p className="mt-4 text-base leading-7 text-steel-300">
+                ExoSpace also supports digital platforms, web engineering,
+                integration and data-driven workflows for serious technical
+                organizations.
+              </p>
+              <div className="mt-6">
+                <SiteLink
+                  href="/digital-solutions"
+                  className="text-sm font-semibold text-signal-teal hover:text-white"
+                >
+                  Explore digital solutions
+                </SiteLink>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <CTASection
+        title="Discuss a current or future technical activity."
+        body="A short conversation can quickly clarify whether the right fit is engineering reinforcement, validation support, a focused study, training, digital platform work or a broader delivery model discussion."
+      />
     </>
   );
 }
