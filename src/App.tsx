@@ -5,15 +5,27 @@ import { seo } from "./data/site";
 import { SiteLayout } from "./layouts/SiteLayout";
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
+import { DeliveryModel } from "./pages/DeliveryModel";
+import { DigitalSolutions } from "./pages/DigitalSolutions";
 import { Home } from "./pages/Home";
 import { Sectors } from "./pages/Sectors";
 import { Services } from "./pages/Services";
+import { Training } from "./pages/Training";
 import { getPathname } from "./utils/path";
 
 const pages = {
   "/": { component: <Home />, seo: seo.home },
   "/services": { component: <Services />, seo: seo.services },
   "/sectors": { component: <Sectors />, seo: seo.sectors },
+  "/delivery-model": {
+    component: <DeliveryModel />,
+    seo: seo.deliveryModel,
+  },
+  "/training": { component: <Training />, seo: seo.training },
+  "/digital-solutions": {
+    component: <DigitalSolutions />,
+    seo: seo.digitalSolutions,
+  },
   "/about": { component: <About />, seo: seo.about },
   "/contact": { component: <Contact />, seo: seo.contact },
 };
