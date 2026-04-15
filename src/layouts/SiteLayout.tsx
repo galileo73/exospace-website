@@ -153,15 +153,15 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function handlePanelLeave() {
+    setActivePanel(null);
+  }
+
   function renderMegaPanel(panel: PanelKey) {
     if (panel === "services") {
       return (
-        <div
-          className="absolute inset-x-0 top-full border-t border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]"
-          onMouseEnter={() => setActivePanel("services")}
-          onMouseLeave={() => setActivePanel(null)}
-        >
-          <div className="mx-auto grid max-w-[1480px] gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
+        <div className="absolute left-0 top-full z-50 mt-3 w-[min(1100px,calc(100vw-64px))] overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]">
+          <div className="grid gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
             <div className="border-r border-signal-blue/[0.2] pr-10">
               <p className="text-[18px] font-semibold text-white">
                 Services & Solutions
@@ -184,7 +184,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Engineering Support
                 </p>
                 <div className="mt-6 grid gap-5">
-                  {serviceColumns[0].map((service) => (
+                  {(serviceColumns[0] ?? []).map((service) => (
                     <button
                       key={service.title}
                       type="button"
@@ -201,7 +201,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Technical Assurance
                 </p>
                 <div className="mt-6 grid gap-5">
-                  {serviceColumns[1].map((service) => (
+                  {(serviceColumns[1] ?? []).map((service) => (
                     <button
                       key={service.title}
                       type="button"
@@ -218,7 +218,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Digital & Training
                 </p>
                 <div className="mt-6 grid gap-5">
-                  {serviceColumns[2].map((service) => (
+                  {(serviceColumns[2] ?? []).map((service) => (
                     <button
                       key={service.title}
                       type="button"
@@ -238,12 +238,8 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
 
     if (panel === "sectors") {
       return (
-        <div
-          className="absolute inset-x-0 top-full border-t border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]"
-          onMouseEnter={() => setActivePanel("sectors")}
-          onMouseLeave={() => setActivePanel(null)}
-        >
-          <div className="mx-auto grid max-w-[1480px] gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
+        <div className="absolute left-0 top-full z-50 mt-3 w-[min(1100px,calc(100vw-64px))] overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]">
+          <div className="grid gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
             <div className="border-r border-signal-blue/[0.2] pr-10">
               <p className="text-[18px] font-semibold text-white">
                 Sectors & Programmes
@@ -266,7 +262,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Space
                 </p>
                 <div className="mt-6 grid gap-5">
-                  {sectorColumns[0].map((sector) => (
+                  {(sectorColumns[0] ?? []).map((sector) => (
                     <button
                       key={sector.title}
                       type="button"
@@ -283,7 +279,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Infrastructure
                 </p>
                 <div className="mt-6 grid gap-5">
-                  {sectorColumns[1].map((sector) => (
+                  {(sectorColumns[1] ?? []).map((sector) => (
                     <button
                       key={sector.title}
                       type="button"
@@ -300,7 +296,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                   Organizations
                 </p>
                 <div className="mt-6 grid gap-5">
-                  {sectorColumns[2].map((sector) => (
+                  {(sectorColumns[2] ?? []).map((sector) => (
                     <button
                       key={sector.title}
                       type="button"
@@ -352,7 +348,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
               <div
                 className="relative"
                 onMouseEnter={() => setActivePanel("services")}
-                onMouseLeave={() => setActivePanel(null)}
+                onMouseLeave={handlePanelLeave}
               >
                 <button
                   type="button"
@@ -375,12 +371,20 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                     className="inline-block h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent border-t-signal-blue"
                   />
                 </button>
+
+                {activePanel === "services" ? (
+                  <div className="absolute left-0 top-full h-3 w-full" />
+                ) : null}
+
+                {activePanel === "services"
+                  ? renderMegaPanel("services")
+                  : null}
               </div>
 
               <div
                 className="relative"
                 onMouseEnter={() => setActivePanel("sectors")}
-                onMouseLeave={() => setActivePanel(null)}
+                onMouseLeave={handlePanelLeave}
               >
                 <button
                   type="button"
@@ -403,6 +407,12 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                     className="inline-block h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent border-t-signal-blue"
                   />
                 </button>
+
+                {activePanel === "sectors" ? (
+                  <div className="absolute left-0 top-full h-3 w-full" />
+                ) : null}
+
+                {activePanel === "sectors" ? renderMegaPanel("sectors") : null}
               </div>
 
               {navigation
@@ -448,8 +458,6 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
               Menu
             </button>
           </nav>
-
-          {renderMegaPanel(activePanel)}
         </div>
 
         {menuOpen ? (
