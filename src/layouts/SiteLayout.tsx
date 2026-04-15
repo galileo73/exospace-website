@@ -138,15 +138,24 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
     };
   }, []);
 
+  function clearCloseTimer() {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }
+
   function closeMenu() {
     setMenuOpen(false);
     setActivePanel(null);
+    clearCloseTimer();
   }
 
   function openSearch() {
     setSearchOpen(true);
     setSearchTerm("");
     setActivePanel(null);
+    clearCloseTimer();
   }
 
   function closeSearch() {
@@ -158,104 +167,104 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
     setActivePanel(null);
     setMenuOpen(false);
     closeSearch();
+    clearCloseTimer();
     navigate(href);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function openPanel(panel: Exclude<PanelKey, null>) {
-    if (closeTimerRef.current !== null) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
+    clearCloseTimer();
     setActivePanel(panel);
   }
 
   function scheduleClosePanel() {
-    if (closeTimerRef.current !== null) {
-      window.clearTimeout(closeTimerRef.current);
-    }
-
+    clearCloseTimer();
     closeTimerRef.current = window.setTimeout(() => {
       setActivePanel(null);
       closeTimerRef.current = null;
-    }, 180);
+    }, 220);
   }
 
   function renderMegaPanel(panel: PanelKey) {
     if (panel === "services") {
       return (
         <div
-          className="absolute left-1/2 top-full z-50 mt-2 w-[min(1160px,calc(100vw-32px))] -translate-x-1/2 overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]"
+          className="absolute inset-x-0 top-full z-50 border-t border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.985),rgba(3,7,13,0.995))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]"
           onMouseEnter={() => openPanel("services")}
           onMouseLeave={scheduleClosePanel}
         >
-          <div className="grid gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
-            <div className="border-r border-signal-blue/[0.2] pr-10">
-              <p className="text-[18px] font-semibold text-white">
-                Services & Solutions
-              </p>
-              <p className="mt-8 max-w-[250px] text-[17px] leading-8 text-steel-300">
-                Explore ExoSpace support across engineering, validation,
-                studies, digital delivery and knowledge transfer.
-              </p>
-              <button
-                type="button"
-                onClick={() => handleSearchNavigate("/services")}
-                className="mt-10 inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
-              >
-                Services & Solutions
-              </button>
-            </div>
-            <div className="grid gap-10 xl:grid-cols-3">
-              <div>
-                <p className="text-[17px] font-semibold text-signal-blue">
-                  Engineering Support
+          <div className="mx-auto w-full max-w-[1480px] px-5 md:px-8">
+            <div className="grid gap-10 py-10 xl:grid-cols-[360px_1fr]">
+              <div className="border-r border-signal-blue/[0.2] pr-10">
+                <p className="text-[18px] font-semibold text-white">
+                  Services & Solutions
                 </p>
-                <div className="mt-6 grid gap-5">
-                  {(serviceColumns[0] ?? []).map((service) => (
-                    <button
-                      key={service.title}
-                      type="button"
-                      onClick={() => handleSearchNavigate("/services")}
-                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                    >
-                      {service.title}
-                    </button>
-                  ))}
-                </div>
+                <p className="mt-8 max-w-[260px] text-[17px] leading-8 text-steel-300">
+                  Explore ExoSpace support across engineering, validation,
+                  studies, digital delivery and knowledge transfer.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => handleSearchNavigate("/services")}
+                  className="mt-10 inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
+                >
+                  Services & Solutions
+                </button>
               </div>
-              <div>
-                <p className="text-[17px] font-semibold text-signal-blue">
-                  Technical Assurance
-                </p>
-                <div className="mt-6 grid gap-5">
-                  {(serviceColumns[1] ?? []).map((service) => (
-                    <button
-                      key={service.title}
-                      type="button"
-                      onClick={() => handleSearchNavigate("/services")}
-                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                    >
-                      {service.title}
-                    </button>
-                  ))}
+
+              <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+                <div>
+                  <p className="text-[17px] font-semibold text-signal-blue">
+                    Engineering Support
+                  </p>
+                  <div className="mt-6 grid gap-5">
+                    {(serviceColumns[0] ?? []).map((service) => (
+                      <button
+                        key={service.title}
+                        type="button"
+                        onClick={() => handleSearchNavigate("/services")}
+                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                      >
+                        {service.title}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="text-[17px] font-semibold text-signal-blue">
-                  Digital & Training
-                </p>
-                <div className="mt-6 grid gap-5">
-                  {(serviceColumns[2] ?? []).map((service) => (
-                    <button
-                      key={service.title}
-                      type="button"
-                      onClick={() => handleSearchNavigate("/services")}
-                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                    >
-                      {service.title}
-                    </button>
-                  ))}
+
+                <div>
+                  <p className="text-[17px] font-semibold text-signal-blue">
+                    Technical Assurance
+                  </p>
+                  <div className="mt-6 grid gap-5">
+                    {(serviceColumns[1] ?? []).map((service) => (
+                      <button
+                        key={service.title}
+                        type="button"
+                        onClick={() => handleSearchNavigate("/services")}
+                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                      >
+                        {service.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[17px] font-semibold text-signal-blue">
+                    Digital & Training
+                  </p>
+                  <div className="mt-6 grid gap-5">
+                    {(serviceColumns[2] ?? []).map((service) => (
+                      <button
+                        key={service.title}
+                        type="button"
+                        onClick={() => handleSearchNavigate("/services")}
+                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                      >
+                        {service.title}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -267,77 +276,82 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
     if (panel === "sectors") {
       return (
         <div
-          className="absolute left-1/2 top-full z-50 mt-2 w-[min(1160px,calc(100vw-32px))] -translate-x-1/2 overflow-hidden rounded-md border border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.98),rgba(3,7,13,0.99))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]"
+          className="absolute inset-x-0 top-full z-50 border-t border-signal-blue/[0.22] bg-[linear-gradient(180deg,rgba(4,10,18,0.985),rgba(3,7,13,0.995))] text-steel-100 shadow-[0_30px_90px_rgba(2,6,14,0.42)]"
           onMouseEnter={() => openPanel("sectors")}
           onMouseLeave={scheduleClosePanel}
         >
-          <div className="grid gap-10 px-5 py-10 md:px-8 lg:grid-cols-[340px_1fr]">
-            <div className="border-r border-signal-blue/[0.2] pr-10">
-              <p className="text-[18px] font-semibold text-white">
-                Sectors & Programmes
-              </p>
-              <p className="mt-8 max-w-[250px] text-[17px] leading-8 text-steel-300">
-                Explore where ExoSpace can support technical organizations,
-                secure infrastructures and complex programme environments.
-              </p>
-              <button
-                type="button"
-                onClick={() => handleSearchNavigate("/sectors")}
-                className="mt-10 inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
-              >
-                Sectors & Programmes
-              </button>
-            </div>
-            <div className="grid gap-10 xl:grid-cols-3">
-              <div>
-                <p className="text-[17px] font-semibold text-signal-blue">
-                  Space
+          <div className="mx-auto w-full max-w-[1480px] px-5 md:px-8">
+            <div className="grid gap-10 py-10 xl:grid-cols-[360px_1fr]">
+              <div className="border-r border-signal-blue/[0.2] pr-10">
+                <p className="text-[18px] font-semibold text-white">
+                  Sectors & Programmes
                 </p>
-                <div className="mt-6 grid gap-5">
-                  {(sectorColumns[0] ?? []).map((sector) => (
-                    <button
-                      key={sector.title}
-                      type="button"
-                      onClick={() => handleSearchNavigate("/sectors")}
-                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                    >
-                      {sector.title}
-                    </button>
-                  ))}
-                </div>
+                <p className="mt-8 max-w-[260px] text-[17px] leading-8 text-steel-300">
+                  Explore where ExoSpace can support technical organizations,
+                  secure infrastructures and complex programme environments.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => handleSearchNavigate("/sectors")}
+                  className="mt-10 inline-flex min-h-12 items-center justify-center rounded-md border border-signal-blue px-6 text-[16px] font-semibold text-white transition hover:bg-signal-blue hover:text-carbon-950"
+                >
+                  Sectors & Programmes
+                </button>
               </div>
-              <div>
-                <p className="text-[17px] font-semibold text-signal-blue">
-                  Infrastructure
-                </p>
-                <div className="mt-6 grid gap-5">
-                  {(sectorColumns[1] ?? []).map((sector) => (
-                    <button
-                      key={sector.title}
-                      type="button"
-                      onClick={() => handleSearchNavigate("/sectors")}
-                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                    >
-                      {sector.title}
-                    </button>
-                  ))}
+
+              <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+                <div>
+                  <p className="text-[17px] font-semibold text-signal-blue">
+                    Space
+                  </p>
+                  <div className="mt-6 grid gap-5">
+                    {(sectorColumns[0] ?? []).map((sector) => (
+                      <button
+                        key={sector.title}
+                        type="button"
+                        onClick={() => handleSearchNavigate("/sectors")}
+                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                      >
+                        {sector.title}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="text-[17px] font-semibold text-signal-blue">
-                  Organizations
-                </p>
-                <div className="mt-6 grid gap-5">
-                  {(sectorColumns[2] ?? []).map((sector) => (
-                    <button
-                      key={sector.title}
-                      type="button"
-                      onClick={() => handleSearchNavigate("/sectors")}
-                      className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
-                    >
-                      {sector.title}
-                    </button>
-                  ))}
+
+                <div>
+                  <p className="text-[17px] font-semibold text-signal-blue">
+                    Infrastructure
+                  </p>
+                  <div className="mt-6 grid gap-5">
+                    {(sectorColumns[1] ?? []).map((sector) => (
+                      <button
+                        key={sector.title}
+                        type="button"
+                        onClick={() => handleSearchNavigate("/sectors")}
+                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                      >
+                        {sector.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[17px] font-semibold text-signal-blue">
+                    Organizations
+                  </p>
+                  <div className="mt-6 grid gap-5">
+                    {(sectorColumns[2] ?? []).map((sector) => (
+                      <button
+                        key={sector.title}
+                        type="button"
+                        onClick={() => handleSearchNavigate("/sectors")}
+                        className="text-left text-[17px] leading-8 text-white transition hover:text-signal-blue"
+                      >
+                        {sector.title}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -404,13 +418,6 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                     className="inline-block h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent border-t-signal-blue"
                   />
                 </button>
-
-                {activePanel === "services" ? (
-                  <>
-                    <div className="absolute left-0 right-0 top-full h-2" />
-                    {renderMegaPanel("services")}
-                  </>
-                ) : null}
               </div>
 
               <div
@@ -439,13 +446,6 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
                     className="inline-block h-0 w-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent border-t-signal-blue"
                   />
                 </button>
-
-                {activePanel === "sectors" ? (
-                  <>
-                    <div className="absolute left-0 right-0 top-full h-2" />
-                    {renderMegaPanel("sectors")}
-                  </>
-                ) : null}
               </div>
 
               {navigation
@@ -491,6 +491,16 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
               Menu
             </button>
           </nav>
+
+          {activePanel ? (
+            <div
+              className="absolute inset-x-0 top-full h-3 z-40"
+              onMouseEnter={() => openPanel(activePanel)}
+              onMouseLeave={scheduleClosePanel}
+            />
+          ) : null}
+
+          {renderMegaPanel(activePanel)}
         </div>
 
         {menuOpen ? (
