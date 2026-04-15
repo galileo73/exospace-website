@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { PageHero } from "../components/PageHero";
-import { company, services } from "../data/site";
+import { company } from "../data/site";
 
 function encodeForm(data: Record<string, string>) {
   return new URLSearchParams(data).toString();
@@ -22,7 +22,7 @@ export function Contact() {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       organization: String(formData.get("organization") ?? ""),
-      service: String(formData.get("service") ?? ""),
+      inquiryType: String(formData.get("inquiryType") ?? ""),
       message: String(formData.get("message") ?? ""),
     };
 
@@ -54,9 +54,9 @@ export function Contact() {
   return (
     <>
       <PageHero
-        eyebrow="Contact"
-        title="Tell us about your current or future technical activity."
-        intro="Share the programme context, service need and expected timing. ExoSpace will be glad to explore whether a focused engineering or consulting engagement can support you."
+        eyebrow="Contact Us"
+        title="Tell us about your technical context and support need."
+        intro="ExoSpace can discuss ongoing engineering support, partnership models, technical reviews, validation, training, digital platforms or a more focused technical study."
         primaryCta="Email ExoSpace"
         primaryHref={`mailto:${company.email}`}
       />
@@ -65,13 +65,14 @@ export function Contact() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
           <aside>
             <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-              Inquiries welcome
+              How to frame your inquiry
             </h2>
             <p className="mt-5 text-base leading-7 text-carbon-800">
-              ExoSpace is best suited for senior technical support, technical
-              consulting, validation and reviews, studies, digital support for
-              technical organizations and knowledge transfer.
+              A short message is enough. The most useful inputs are the type of
+              activity, the programme or organizational context, the expected
+              timing and the kind of support being considered.
             </p>
+
             <div className="mt-8 grid gap-4 text-sm text-carbon-800">
               <p>
                 <span className="font-semibold text-carbon-950">Email: </span>
@@ -97,6 +98,20 @@ export function Contact() {
                 </span>
                 {company.location}
               </p>
+            </div>
+
+            <div className="mt-10 rounded-md border border-carbon-950/10 bg-carbon-950/[0.03] p-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                Typical inquiry topics
+              </p>
+              <div className="mt-4 grid gap-3 text-base leading-7 text-carbon-800">
+                <p>Engineering reinforcement</p>
+                <p>Delivery model or partnership discussion</p>
+                <p>Technical reviews or validation support</p>
+                <p>Training and knowledge transfer</p>
+                <p>Digital platforms and web engineering</p>
+                <p>Focused technical studies or assessments</p>
+              </div>
             </div>
           </aside>
 
@@ -137,6 +152,7 @@ export function Contact() {
                 />
               </label>
             </div>
+
             <label className="grid gap-2 text-sm font-medium">
               Organization
               <input
@@ -145,31 +161,37 @@ export function Contact() {
                 autoComplete="organization"
               />
             </label>
+
             <label className="grid gap-2 text-sm font-medium">
-              Area of support
+              Inquiry type
               <select
                 className="min-h-12 rounded-md border border-white/[0.15] bg-carbon-900 px-4 text-base text-white outline-none transition focus:border-signal-teal"
-                name="service"
+                name="inquiryType"
                 defaultValue=""
                 required
               >
                 <option value="" disabled>
                   Select one
                 </option>
-                {services.map((service) => (
-                  <option key={service.title}>{service.title}</option>
-                ))}
+                <option>Engineering reinforcement</option>
+                <option>Delivery model / partnership discussion</option>
+                <option>Technical reviews and validation</option>
+                <option>Training and knowledge transfer</option>
+                <option>Digital solutions and web engineering</option>
+                <option>Technical study or expert assessment</option>
               </select>
             </label>
+
             <label className="grid gap-2 text-sm font-medium">
               Message
               <textarea
                 className="min-h-40 rounded-md border border-white/[0.15] bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-signal-teal"
                 name="message"
                 required
-                placeholder="Briefly describe the technical context, timing and expected support."
+                placeholder="Briefly describe the context, timing and the kind of support you are looking for."
               />
             </label>
+
             <button
               type="submit"
               disabled={isSubmitting}
@@ -177,6 +199,7 @@ export function Contact() {
             >
               {isSubmitting ? "Sending..." : "Send inquiry"}
             </button>
+
             {status ? (
               <p className="rounded-md border border-signal-teal/40 bg-signal-teal/10 p-4 text-sm leading-6 text-steel-100">
                 {status}
