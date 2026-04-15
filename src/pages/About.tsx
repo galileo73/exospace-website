@@ -1,6 +1,7 @@
 import { CTASection } from "../components/CTASection";
 import { PageHero } from "../components/PageHero";
 import { company, differentiators } from "../data/site";
+import { SiteLink } from "../components/SiteLink";
 
 export function About() {
   return (
@@ -119,26 +120,40 @@ export function About() {
       </section>
 
       <section className="bg-white text-carbon-950">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-              Based in Prague. Built for European and international technical
-              work.
-            </h2>
-          </div>
-
-          <div className="space-y-6 text-base leading-7 text-carbon-800">
-            <p>
-              The company is based in Prague, Czech Republic, and is structured
-              to support demanding technical activities with a professional,
-              partner-friendly and delivery-oriented approach.
-            </p>
-            <p>
-              ExoSpace is particularly suited to organizations that need a
-              serious technical counterpart able to integrate quickly, operate
-              with low administrative friction and contribute across
-              engineering, assurance and delivery topics.
-            </p>
+        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+            <div>
+              <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+                A partner-oriented company profile.
+              </h2>
+            </div>
+            <div className="space-y-6 text-base leading-7 text-carbon-800">
+              <p>
+                ExoSpace is especially relevant for organizations that need a
+                serious technical counterpart able to integrate quickly, support
+                work with low administrative friction and contribute in a way
+                that remains aligned with programme logic.
+              </p>
+              <p>
+                This includes support to engineering activities, review
+                preparation, validation logic, delivery structure, training and
+                digital enablement where needed.
+              </p>
+              <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+                <SiteLink
+                  href="/delivery-model"
+                  className="inline-flex min-h-12 items-center justify-center rounded-md border border-carbon-950/15 px-6 text-base font-semibold text-carbon-950 transition hover:bg-carbon-950 hover:text-white"
+                >
+                  Explore the delivery model
+                </SiteLink>
+                <SiteLink
+                  href="/contact#inquiry-form"
+                  className="inline-flex min-h-12 items-center justify-center rounded-md bg-carbon-950 px-6 text-base font-semibold text-white transition hover:opacity-90"
+                >
+                  Contact ExoSpace
+                </SiteLink>
+              </div>
+            </div>
           </div>
         </div>
       </section>

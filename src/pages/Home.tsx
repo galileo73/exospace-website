@@ -2,6 +2,21 @@ import { CTASection } from "../components/CTASection";
 import { company, differentiators, sectors, services } from "../data/site";
 import { SiteLink } from "../components/SiteLink";
 
+const engagementExamples = [
+  {
+    title: "Engineering reinforcement",
+    body: "Support to system engineering, requirements, interface coordination and review preparation for demanding technical activities.",
+  },
+  {
+    title: "Validation and readiness support",
+    body: "Support for validation planning, test logic, readiness evidence and technical assurance before milestones and delivery commitments.",
+  },
+  {
+    title: "Training and digital enablement",
+    body: "Knowledge transfer, technical web platforms and workflow-oriented digital support for organizations that need continuity and clarity.",
+  },
+];
+
 export function Home() {
   const featuredServices = services.slice(0, 6);
   const featuredSectors = sectors.slice(0, 4);
@@ -187,15 +202,48 @@ export function Home() {
 
       <section className="bg-carbon-950">
         <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-signal-teal">
+              Engagement Examples
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight text-white md:text-4xl">
+              Typical ways ExoSpace can contribute.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-steel-300">
+              ExoSpace can support as a focused complementary partner across
+              engineering, readiness, studies, training and digital enablement.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {engagementExamples.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-md border border-white/10 bg-white/[0.03] p-6"
+              >
+                <h3 className="text-xl font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-4 text-base leading-7 text-steel-300">
+                  {item.body}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white text-carbon-950">
+        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
           <div className="grid gap-6 md:grid-cols-3">
-            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
                 Delivery Model
               </p>
-              <h3 className="mt-4 text-2xl font-semibold text-white">
+              <h3 className="mt-4 text-2xl font-semibold">
                 Company-based and scalable
               </h3>
-              <p className="mt-4 text-base leading-7 text-steel-300">
+              <p className="mt-4 text-base leading-7 text-carbon-800">
                 ExoSpace can support capacity-based delivery, complementary
                 engineering reinforcement and defined work packages where scope
                 and interfaces are mature enough.
@@ -203,21 +251,21 @@ export function Home() {
               <div className="mt-6">
                 <SiteLink
                   href="/delivery-model"
-                  className="text-sm font-semibold text-signal-teal hover:text-white"
+                  className="text-sm font-semibold text-signal-blue hover:text-carbon-950"
                 >
                   Learn more about the delivery model
                 </SiteLink>
               </div>
             </article>
 
-            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
                 Training
               </p>
-              <h3 className="mt-4 text-2xl font-semibold text-white">
+              <h3 className="mt-4 text-2xl font-semibold">
                 Knowledge transfer that stays useful
               </h3>
-              <p className="mt-4 text-base leading-7 text-steel-300">
+              <p className="mt-4 text-base leading-7 text-carbon-800">
                 Training can be delivered as a standalone course, embedded in a
                 project context or used as continuous knowledge transfer for a
                 team.
@@ -225,21 +273,21 @@ export function Home() {
               <div className="mt-6">
                 <SiteLink
                   href="/training"
-                  className="text-sm font-semibold text-signal-teal hover:text-white"
+                  className="text-sm font-semibold text-signal-blue hover:text-carbon-950"
                 >
                   Explore training support
                 </SiteLink>
               </div>
             </article>
 
-            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-signal-blue">
                 Digital Solutions
               </p>
-              <h3 className="mt-4 text-2xl font-semibold text-white">
+              <h3 className="mt-4 text-2xl font-semibold">
                 Web, integration and trusted workflows
               </h3>
-              <p className="mt-4 text-base leading-7 text-steel-300">
+              <p className="mt-4 text-base leading-7 text-carbon-800">
                 ExoSpace also supports digital platforms, web engineering,
                 integration and data-driven workflows for serious technical
                 organizations.
@@ -247,7 +295,7 @@ export function Home() {
               <div className="mt-6">
                 <SiteLink
                   href="/digital-solutions"
-                  className="text-sm font-semibold text-signal-teal hover:text-white"
+                  className="text-sm font-semibold text-signal-blue hover:text-carbon-950"
                 >
                   Explore digital solutions
                 </SiteLink>

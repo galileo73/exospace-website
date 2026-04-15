@@ -21,9 +21,9 @@ export function Services() {
             <p className="mt-6 text-base leading-7 text-steel-300">
               The service structure is designed for organizations that need
               credible support across architecture, validation, reviews,
-              operational readiness, security, training and digital enablement.
-              The goal is not to offer generic staffing, but to support specific
-              technical outcomes with continuity and judgement.
+              operational readiness, risk-aware delivery, training and digital
+              enablement. The goal is not generic staffing, but support to
+              specific technical outcomes with continuity and judgement.
             </p>
           </div>
 
@@ -73,37 +73,72 @@ export function Services() {
       </section>
 
       <section className="bg-white text-carbon-950">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+              How services are typically combined
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
+              <h3 className="text-xl font-semibold">Engineering + reviews</h3>
+              <p className="mt-4 text-base leading-7 text-carbon-800">
+                Useful when architecture, requirements and milestone reviews
+                need stronger coordination and technical depth.
+              </p>
+            </article>
+            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
+              <h3 className="text-xl font-semibold">Validation + readiness</h3>
+              <p className="mt-4 text-base leading-7 text-carbon-800">
+                Useful when evidence, testing, readiness logic and operational
+                transition need structured follow-up.
+              </p>
+            </article>
+            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
+              <h3 className="text-xl font-semibold">
+                Training + digital support
+              </h3>
+              <p className="mt-4 text-base leading-7 text-carbon-800">
+                Useful when organizations need internal continuity, knowledge
+                transfer and practical technical platforms.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-carbon-950">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:px-8 lg:grid-cols-3">
+          <div>
+            <h2 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
               Closely related support areas
             </h2>
           </div>
 
           <div className="lg:col-span-2 grid gap-6 md:grid-cols-2">
-            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
-              <h3 className="text-xl font-semibold">
+            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <h3 className="text-xl font-semibold text-white">
                 Training and knowledge transfer
               </h3>
-              <p className="mt-4 text-base leading-7 text-carbon-800">
+              <p className="mt-4 text-base leading-7 text-steel-300">
                 For teams that need practical technical understanding, smoother
                 handover and stronger continuity across engineering activities.
               </p>
               <div className="mt-6">
                 <SiteLink
                   href="/training"
-                  className="text-sm font-semibold text-signal-blue hover:text-carbon-950"
+                  className="text-sm font-semibold text-signal-teal hover:text-white"
                 >
                   Explore training
                 </SiteLink>
               </div>
             </article>
 
-            <article className="rounded-md border border-carbon-950/10 bg-carbon-950/[0.02] p-6">
-              <h3 className="text-xl font-semibold">
+            <article className="rounded-md border border-white/10 bg-white/[0.03] p-6">
+              <h3 className="text-xl font-semibold text-white">
                 Digital platforms and web engineering
               </h3>
-              <p className="mt-4 text-base leading-7 text-carbon-800">
+              <p className="mt-4 text-base leading-7 text-steel-300">
                 For organizations that need modern digital tools, integration
                 and maintainable technical platforms connected to real
                 operations.
@@ -111,7 +146,7 @@ export function Services() {
               <div className="mt-6">
                 <SiteLink
                   href="/digital-solutions"
-                  className="text-sm font-semibold text-signal-blue hover:text-carbon-950"
+                  className="text-sm font-semibold text-signal-teal hover:text-white"
                 >
                   Explore digital solutions
                 </SiteLink>
