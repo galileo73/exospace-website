@@ -81,7 +81,7 @@ export function SpaceBackdrop({
     let stars: Star[] = [];
 
     let activeRouteIndex = 0;
-    let routeProgress = 0.16;
+    let routeProgress = 0.22;
     let direction = 1;
     let lastRouteSwitch = 0;
 
@@ -113,26 +113,29 @@ export function SpaceBackdrop({
 
     function getRoutes(): Route[] {
       return [
+        // rotta alta destra, pulita
         {
-          p0: { x: width * 0.24, y: height * 0.92 },
-          p1: { x: width * 0.46, y: height * 0.58 },
-          p2: { x: width * 0.98, y: height * 0.56 },
-          color: "rgba(57, 216, 208, 0.24)",
-          width: 1.5,
-        },
-        {
-          p0: { x: width * 0.4, y: height * 0.96 },
-          p1: { x: width * 0.66, y: height * 0.98 },
-          p2: { x: width * 1.02, y: height * 0.74 },
-          color: "rgba(105, 169, 221, 0.14)",
-          width: 1.15,
-        },
-        {
-          p0: { x: width * 0.52, y: height * 0.54 },
+          p0: { x: width * 0.52, y: height * 0.56 },
           p1: { x: width * 0.78, y: height * 0.18 },
-          p2: { x: width * 0.96, y: height * 0.12 },
+          p2: { x: width * 0.95, y: height * 0.12 },
           color: "rgba(105, 169, 221, 0.16)",
           width: 1.05,
+        },
+        // rotta centrale destra
+        {
+          p0: { x: width * 0.6, y: height * 0.72 },
+          p1: { x: width * 0.82, y: height * 0.6 },
+          p2: { x: width * 1.02, y: height * 0.56 },
+          color: "rgba(57, 216, 208, 0.22)",
+          width: 1.45,
+        },
+        // rotta molto bassa, fuori dalla fascia testo
+        {
+          p0: { x: width * 0.76, y: height * 1.02 },
+          p1: { x: width * 0.9, y: height * 0.95 },
+          p2: { x: width * 1.03, y: height * 0.88 },
+          color: "rgba(105, 169, 221, 0.12)",
+          width: 1.0,
         },
       ];
     }
@@ -236,31 +239,31 @@ export function SpaceBackdrop({
 
     function drawNodes() {
       const nodes = [
-        { x: width * 0.62, y: height * 0.56, r: 3.2 },
-        { x: width * 0.78, y: height * 0.44, r: 3.6 },
-        { x: width * 0.88, y: height * 0.3, r: 3.0 },
+        { x: width * 0.63, y: height * 0.56, r: 3.0 },
+        { x: width * 0.79, y: height * 0.44, r: 3.4 },
+        { x: width * 0.89, y: height * 0.3, r: 2.8 },
       ];
 
       nodes.forEach((node, index) => {
         drawingContext.save();
         drawingContext.beginPath();
         drawingContext.fillStyle =
-          index === 1 ? "rgba(57,216,208,0.88)" : "rgba(105,169,221,0.72)";
+          index === 1 ? "rgba(57,216,208,0.84)" : "rgba(105,169,221,0.68)";
         drawingContext.shadowColor =
-          index === 1 ? "rgba(57,216,208,0.38)" : "rgba(105,169,221,0.28)";
-        drawingContext.shadowBlur = 10;
+          index === 1 ? "rgba(57,216,208,0.34)" : "rgba(105,169,221,0.24)";
+        drawingContext.shadowBlur = 8;
         drawingContext.arc(node.x, node.y, node.r, 0, Math.PI * 2);
         drawingContext.fill();
         drawingContext.restore();
       });
 
       drawingContext.save();
-      drawingContext.strokeStyle = "rgba(105,169,221,0.10)";
+      drawingContext.strokeStyle = "rgba(105,169,221,0.09)";
       drawingContext.lineWidth = 1;
       drawingContext.beginPath();
-      drawingContext.moveTo(width * 0.62, height * 0.56);
-      drawingContext.lineTo(width * 0.78, height * 0.44);
-      drawingContext.lineTo(width * 0.88, height * 0.3);
+      drawingContext.moveTo(width * 0.63, height * 0.56);
+      drawingContext.lineTo(width * 0.79, height * 0.44);
+      drawingContext.lineTo(width * 0.89, height * 0.3);
       drawingContext.stroke();
       drawingContext.restore();
     }
@@ -276,7 +279,7 @@ export function SpaceBackdrop({
 
       const trail = drawingContext.createLinearGradient(-28, 0, 0, 0);
       trail.addColorStop(0, "rgba(244,247,251,0)");
-      trail.addColorStop(1, "rgba(244,247,251,0.22)");
+      trail.addColorStop(1, "rgba(244,247,251,0.20)");
       drawingContext.strokeStyle = trail;
       drawingContext.lineWidth = 1;
       drawingContext.beginPath();
@@ -284,17 +287,17 @@ export function SpaceBackdrop({
       drawingContext.lineTo(-5, 0);
       drawingContext.stroke();
 
-      drawingContext.fillStyle = "rgba(57,216,208,0.92)";
-      drawingContext.shadowColor = "rgba(57,216,208,0.42)";
-      drawingContext.shadowBlur = 10;
+      drawingContext.fillStyle = "rgba(57,216,208,0.90)";
+      drawingContext.shadowColor = "rgba(57,216,208,0.40)";
+      drawingContext.shadowBlur = 9;
       drawingContext.fillRect(-3.5, -2.5, 7, 5);
 
       drawingContext.shadowBlur = 0;
-      drawingContext.fillStyle = "rgba(105,169,221,0.78)";
+      drawingContext.fillStyle = "rgba(105,169,221,0.76)";
       drawingContext.fillRect(-12, -1.8, 7, 3.6);
       drawingContext.fillRect(5, -1.8, 7, 3.6);
 
-      drawingContext.strokeStyle = "rgba(244,247,251,0.34)";
+      drawingContext.strokeStyle = "rgba(244,247,251,0.32)";
       drawingContext.lineWidth = 0.8;
       drawingContext.beginPath();
       drawingContext.moveTo(-5, 0);
@@ -307,7 +310,7 @@ export function SpaceBackdrop({
     }
 
     function maybeSwitchRoute(time: number, routes: Route[]) {
-      if (time - lastRouteSwitch < 3200) {
+      if (time - lastRouteSwitch < 3400) {
         return;
       }
 
@@ -315,12 +318,12 @@ export function SpaceBackdrop({
 
       let nextIndex = activeRouteIndex;
       while (nextIndex === activeRouteIndex && routes.length > 1) {
-        nextIndex = Math.floor(Math.random() * routes.length);
+        nextIndex = Math.floor(Math.random() * 2); // evita la rotta bassa
       }
 
       activeRouteIndex = nextIndex;
       direction = Math.random() > 0.5 ? 1 : -1;
-      routeProgress = direction === 1 ? 0.08 : 0.92;
+      routeProgress = direction === 1 ? 0.1 : 0.9;
     }
 
     function draw(time = 0) {
@@ -337,15 +340,16 @@ export function SpaceBackdrop({
         drawSatellite(routes[1], 0.34);
       } else {
         maybeSwitchRoute(time, routes);
-        routeProgress += 0.00135 * direction;
 
-        if (routeProgress >= 0.94) {
-          routeProgress = 0.94;
+        routeProgress += 0.00115 * direction;
+
+        if (routeProgress >= 0.9) {
+          routeProgress = 0.9;
           direction = -1;
         }
 
-        if (routeProgress <= 0.06) {
-          routeProgress = 0.06;
+        if (routeProgress <= 0.1) {
+          routeProgress = 0.1;
           direction = 1;
         }
 
