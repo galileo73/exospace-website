@@ -18,6 +18,21 @@ const heroHighlights = [
   "Independent technical reviews and expert assessments",
 ];
 
+const engagementExamples = [
+  {
+    title: "Engineering reinforcement",
+    body: "Support to system engineering, requirements, interface coordination and review preparation for demanding technical activities.",
+  },
+  {
+    title: "Validation and readiness support",
+    body: "Support for validation planning, test logic, readiness evidence and technical assurance before milestones and delivery commitments.",
+  },
+  {
+    title: "Training and digital enablement",
+    body: "Knowledge transfer, technical web platforms and workflow-oriented digital support for organizations that need continuity and clarity.",
+  },
+];
+
 export function Home() {
   return (
     <>
@@ -190,6 +205,31 @@ export function Home() {
           </div>
           <div className="mt-10">
             <ButtonLink href="/sectors">Explore sectors</ButtonLink>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-carbon-950">
+        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
+          <SectionHeader
+            eyebrow="Engagement examples"
+            title="Typical ways ExoSpace can contribute."
+            intro="ExoSpace can support as a focused complementary partner across engineering, readiness, studies, training and digital enablement."
+          />
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {engagementExamples.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-md border border-white/10 bg-white/[0.03] p-6"
+              >
+                <h3 className="text-xl font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-4 text-base leading-7 text-steel-300">
+                  {item.body}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
