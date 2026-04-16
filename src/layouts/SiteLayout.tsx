@@ -410,7 +410,7 @@ export function SiteLayout({ children, currentPath }: SiteLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-carbon-950 text-steel-100">
+    <div className="min-h-screen overflow-x-hidden bg-carbon-950 text-steel-100">
       <a
         className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-3 focus:text-carbon-950"
         href="#main-content"

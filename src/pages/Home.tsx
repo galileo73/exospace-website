@@ -17,7 +17,7 @@ export function Home() {
     <>
       <section className="relative isolate min-h-[78svh] overflow-hidden bg-carbon-950">
         <SpaceBackdrop density={190} className="opacity-100" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(57,216,208,0.14),transparent_24%),radial-gradient(circle_at_22%_14%,rgba(243,199,117,0.08),transparent_18%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_28%,rgba(57,216,208,0.12),transparent_24%),radial-gradient(circle_at_22%_14%,rgba(243,199,117,0.08),transparent_18%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,7,13,0.52)_0%,rgba(5,11,19,0.26)_48%,rgba(3,7,13,0.12)_100%)]" />
         <div className="absolute inset-0 bg-technical-grid bg-[size:44px_44px] opacity-[0.05]" />
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-carbon-950 via-carbon-950/55 to-transparent" />
