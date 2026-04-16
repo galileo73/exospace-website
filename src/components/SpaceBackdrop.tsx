@@ -141,7 +141,7 @@ export function SpaceBackdrop({
           width: 0.95,
           startAngle: 3.95,
           endAngle: 5.38,
-          speed: 0.00022,
+          speed: 0.00009,
         },
         {
           cx: width * 1.0,
@@ -153,7 +153,7 @@ export function SpaceBackdrop({
           width: 1.2,
           startAngle: 3.88,
           endAngle: 5.28,
-          speed: 0.00024,
+          speed: 0.00008,
         },
         {
           cx: width * 1.08,
@@ -165,7 +165,7 @@ export function SpaceBackdrop({
           width: 1,
           startAngle: 3.82,
           endAngle: 5.18,
-          speed: 0.00021,
+          speed: 0.00008,
         },
         {
           cx: width * 1.18,
@@ -177,7 +177,7 @@ export function SpaceBackdrop({
           width: 0.95,
           startAngle: 3.78,
           endAngle: 5.1,
-          speed: 0.00018,
+          speed: 0.00008,
         },
         {
           cx: width * 0.82,
@@ -189,7 +189,7 @@ export function SpaceBackdrop({
           width: 0.9,
           startAngle: 4.0,
           endAngle: 5.42,
-          speed: 0.0002,
+          speed: 0.00008,
         },
       ];
     }
