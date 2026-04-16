@@ -12,70 +12,75 @@ const heroSignals = [
   "Digital support",
 ];
 
+const heroHighlights = [
+  "Requirements, architecture and interface control",
+  "Verification, validation and operational readiness",
+  "Independent technical reviews and expert assessments",
+];
+
 export function Home() {
   return (
     <>
-      <section className="relative isolate min-h-[78svh] overflow-hidden bg-carbon-950">
-        <SpaceBackdrop density={190} className="opacity-100" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_28%,rgba(57,216,208,0.12),transparent_24%),radial-gradient(circle_at_22%_14%,rgba(243,199,117,0.08),transparent_18%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,7,13,0.52)_0%,rgba(5,11,19,0.26)_48%,rgba(3,7,13,0.12)_100%)]" />
-        <div className="absolute inset-0 bg-technical-grid bg-[size:44px_44px] opacity-[0.05]" />
-        <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-carbon-950 via-carbon-950/55 to-transparent" />
+      <section className="relative isolate overflow-hidden bg-carbon-950">
+        <div className="relative min-h-[calc(100svh-82px)]">
+          <SpaceBackdrop density={170} className="opacity-100" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,7,13,0.58)_0%,rgba(5,11,19,0.24)_48%,rgba(3,7,13,0.10)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_32%,rgba(57,216,208,0.10),transparent_22%),radial-gradient(circle_at_22%_16%,rgba(243,199,117,0.06),transparent_16%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-carbon-950 via-carbon-950/42 to-transparent" />
 
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-24 md:px-8 lg:grid-cols-[1fr_22rem] lg:items-end lg:py-32">
-          <div className="max-w-4xl">
-            <div className="mb-6 flex w-fit items-center gap-3 rounded-md border border-white/[0.15] bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase text-steel-200 shadow-line backdrop-blur-md">
-              <span className="h-2 w-2 rounded-full bg-signal-blue shadow-[0_0_18px_rgba(105,169,221,0.7)]" />
-              Prague-based engineering consultancy
+          <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 md:px-8 lg:grid-cols-[1fr_21rem] lg:items-center lg:py-16 xl:py-20">
+            <div className="max-w-4xl">
+              <div className="mb-5 flex w-fit items-center gap-3 rounded-md border border-white/[0.15] bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase text-steel-200 shadow-line backdrop-blur-md">
+                <span className="h-2 w-2 rounded-full bg-signal-blue shadow-[0_0_18px_rgba(105,169,221,0.7)]" />
+                Prague-based engineering consultancy
+              </div>
+
+              <h1 className="text-4xl font-semibold leading-[1.03] text-white md:text-6xl xl:text-7xl">
+                Senior engineering support for complex technical programmes.
+              </h1>
+
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-steel-200 md:text-xl">
+                {company.shortName} supports demanding engineering work from
+                requirements and architecture to validation, technical reviews,
+                studies and focused digital support for technical organizations.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/contact">
+                  Request an introductory discussion
+                </ButtonLink>
+                <ButtonLink href="/services" variant="secondary">
+                  View services
+                </ButtonLink>
+              </div>
+
+              <div className="mt-8 grid gap-3 border-t border-white/[0.14] pt-5 text-sm text-steel-300 md:grid-cols-3">
+                {heroHighlights.map((item) => (
+                  <p key={item}>{item}</p>
+                ))}
+              </div>
             </div>
 
-            <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl lg:text-7xl">
-              Senior engineering support for complex technical programmes.
-            </h1>
-
-            <p className="mt-7 max-w-3xl text-lg leading-8 text-steel-200 md:text-xl">
-              {company.shortName} supports demanding engineering work from
-              requirements and architecture to validation, technical reviews,
-              studies and focused digital support for technical organizations.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/contact">
-                Request an introductory discussion
-              </ButtonLink>
-              <ButtonLink href="/services" variant="secondary">
-                View services
-              </ButtonLink>
-            </div>
-          </div>
-
-          <aside className="rounded-md border border-white/[0.15] bg-[linear-gradient(180deg,rgba(3,7,13,0.72),rgba(7,16,24,0.62))] p-5 shadow-glow backdrop-blur-md">
-            <p className="text-sm font-semibold uppercase text-signal-teal">
-              Focus areas
-            </p>
-            <div className="mt-5 grid gap-3">
-              {heroSignals.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center justify-between gap-4 border-t border-white/10 pt-3 text-sm text-steel-200"
-                >
-                  <span>{item}</span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-signal-blue" />
-                </div>
-              ))}
-            </div>
-            <p className="mt-6 text-sm leading-6 text-steel-400">
-              Built for selective, high-value support across tenders, reviews,
-              delivery phases and technical decision points.
-            </p>
-          </aside>
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-5 pb-10 md:px-8">
-          <div className="grid gap-3 border-t border-white/[0.15] pt-5 text-sm text-steel-300 md:grid-cols-3">
-            <p>Requirements, architecture and interface control</p>
-            <p>Verification, validation and operational readiness</p>
-            <p>Independent technical reviews and expert assessments</p>
+            <aside className="rounded-md border border-white/[0.15] bg-[linear-gradient(180deg,rgba(3,7,13,0.72),rgba(7,16,24,0.62))] p-5 shadow-glow backdrop-blur-md">
+              <p className="text-sm font-semibold uppercase text-signal-teal">
+                Focus areas
+              </p>
+              <div className="mt-5 grid gap-3">
+                {heroSignals.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center justify-between gap-4 border-t border-white/10 pt-3 text-sm text-steel-200"
+                  >
+                    <span>{item}</span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-signal-blue" />
+                  </div>
+                ))}
+              </div>
+              <p className="mt-6 text-sm leading-6 text-steel-400">
+                Built for selective, high-value support across tenders, reviews,
+                delivery phases and technical decision points.
+              </p>
+            </aside>
           </div>
         </div>
       </section>
