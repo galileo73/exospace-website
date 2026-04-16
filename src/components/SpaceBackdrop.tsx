@@ -81,9 +81,12 @@ export function SpaceBackdrop({
     let stars: Star[] = [];
 
     let activeRouteIndex = 0;
-    let routeProgress = 0.18;
+    let routeProgress = 0.14;
     let direction = 1;
-    let lastRouteSwitch = 0;
+
+    let satelliteVisible = true;
+    let hiddenUntil = 0;
+    let lastSwitchTime = 0;
 
     function createStars() {
       const count = Math.round(
@@ -114,25 +117,39 @@ export function SpaceBackdrop({
     function getRoutes(): Route[] {
       return [
         {
-          p0: { x: width * 0.56, y: height * 0.56 },
-          p1: { x: width * 0.74, y: height * 0.26 },
-          p2: { x: width * 0.95, y: height * 0.14 },
-          color: "rgba(105, 169, 221, 0.16)",
-          width: 1.05,
+          p0: { x: width * 0.48, y: height * 0.62 },
+          p1: { x: width * 0.72, y: height * 0.28 },
+          p2: { x: width * 0.96, y: height * 0.12 },
+          color: "rgba(105, 169, 221, 0.14)",
+          width: 1.0,
         },
         {
-          p0: { x: width * 0.62, y: height * 0.72 },
-          p1: { x: width * 0.82, y: height * 0.58 },
-          p2: { x: width * 1.02, y: height * 0.52 },
-          color: "rgba(57, 216, 208, 0.20)",
-          width: 1.35,
+          p0: { x: width * 0.54, y: height * 0.7 },
+          p1: { x: width * 0.78, y: height * 0.5 },
+          p2: { x: width * 1.02, y: height * 0.4 },
+          color: "rgba(57, 216, 208, 0.16)",
+          width: 1.15,
         },
         {
-          p0: { x: width * 0.8, y: height * 1.01 },
-          p1: { x: width * 0.92, y: height * 0.94 },
-          p2: { x: width * 1.03, y: height * 0.88 },
-          color: "rgba(105, 169, 221, 0.10)",
+          p0: { x: width * 0.6, y: height * 0.8 },
+          p1: { x: width * 0.84, y: height * 0.68 },
+          p2: { x: width * 1.02, y: height * 0.6 },
+          color: "rgba(105, 169, 221, 0.12)",
+          width: 1.0,
+        },
+        {
+          p0: { x: width * 0.66, y: height * 0.94 },
+          p1: { x: width * 0.88, y: height * 0.84 },
+          p2: { x: width * 1.02, y: height * 0.76 },
+          color: "rgba(57, 216, 208, 0.10)",
           width: 0.95,
+        },
+        {
+          p0: { x: width * 0.74, y: height * 1.04 },
+          p1: { x: width * 0.92, y: height * 0.96 },
+          p2: { x: width * 1.03, y: height * 0.9 },
+          color: "rgba(105, 169, 221, 0.08)",
+          width: 0.9,
         },
       ];
     }
@@ -177,12 +194,14 @@ export function SpaceBackdrop({
       drawingContext.save();
       drawingContext.strokeStyle = "rgba(255, 255, 255, 0.028)";
       drawingContext.lineWidth = 1;
+
       for (let x = 0; x < width; x += 44) {
         drawingContext.beginPath();
         drawingContext.moveTo(x, 0);
         drawingContext.lineTo(x, height);
         drawingContext.stroke();
       }
+
       drawingContext.restore();
     }
 
@@ -234,37 +253,6 @@ export function SpaceBackdrop({
       });
     }
 
-    function drawNodes() {
-      const nodes = [
-        { x: width * 0.63, y: height * 0.56, r: 3.0 },
-        { x: width * 0.79, y: height * 0.44, r: 3.4 },
-        { x: width * 0.89, y: height * 0.3, r: 2.8 },
-      ];
-
-      nodes.forEach((node, index) => {
-        drawingContext.save();
-        drawingContext.beginPath();
-        drawingContext.fillStyle =
-          index === 1 ? "rgba(57,216,208,0.84)" : "rgba(105,169,221,0.68)";
-        drawingContext.shadowColor =
-          index === 1 ? "rgba(57,216,208,0.34)" : "rgba(105,169,221,0.24)";
-        drawingContext.shadowBlur = 8;
-        drawingContext.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-        drawingContext.fill();
-        drawingContext.restore();
-      });
-
-      drawingContext.save();
-      drawingContext.strokeStyle = "rgba(105,169,221,0.09)";
-      drawingContext.lineWidth = 1;
-      drawingContext.beginPath();
-      drawingContext.moveTo(width * 0.63, height * 0.56);
-      drawingContext.lineTo(width * 0.79, height * 0.44);
-      drawingContext.lineTo(width * 0.89, height * 0.3);
-      drawingContext.stroke();
-      drawingContext.restore();
-    }
-
     function drawSatellite(route: Route, t: number) {
       const point = quadraticPoint(t, route.p0, route.p1, route.p2);
       const tangent = quadraticTangent(t, route.p0, route.p1, route.p2);
@@ -306,21 +294,23 @@ export function SpaceBackdrop({
       drawingContext.restore();
     }
 
-    function maybeSwitchRoute(time: number, routes: Route[]) {
-      if (time - lastRouteSwitch < 6200) {
+    function switchRoute(time: number, routes: Route[]) {
+      if (time - lastSwitchTime < 6000) {
         return;
       }
 
-      lastRouteSwitch = time;
+      lastSwitchTime = time;
 
       let nextIndex = activeRouteIndex;
       while (nextIndex === activeRouteIndex && routes.length > 1) {
-        nextIndex = Math.floor(Math.random() * 2);
+        nextIndex = Math.floor(Math.random() * routes.length);
       }
 
       activeRouteIndex = nextIndex;
       direction = Math.random() > 0.5 ? 1 : -1;
-      routeProgress = direction === 1 ? 0.12 : 0.88;
+      routeProgress = direction === 1 ? 0.1 : 0.9;
+      satelliteVisible = false;
+      hiddenUntil = time + 1200;
     }
 
     function draw(time = 0) {
@@ -331,26 +321,25 @@ export function SpaceBackdrop({
 
       const routes = getRoutes();
       drawRoutes(routes);
-      drawNodes();
 
       if (reducedMotion) {
         drawSatellite(routes[1], 0.34);
       } else {
-        maybeSwitchRoute(time, routes);
+        if (satelliteVisible) {
+          routeProgress += 0.00035 * direction;
 
-        routeProgress += 0.00042 * direction;
-
-        if (routeProgress >= 0.88) {
-          routeProgress = 0.88;
-          direction = -1;
+          if (routeProgress >= 0.9 || routeProgress <= 0.1) {
+            satelliteVisible = false;
+            hiddenUntil = time + 1000;
+          }
+        } else if (time >= hiddenUntil) {
+          switchRoute(time, routes);
+          satelliteVisible = true;
         }
 
-        if (routeProgress <= 0.12) {
-          routeProgress = 0.12;
-          direction = 1;
+        if (satelliteVisible) {
+          drawSatellite(routes[activeRouteIndex], routeProgress);
         }
-
-        drawSatellite(routes[activeRouteIndex], routeProgress);
       }
 
       animationFrame = window.requestAnimationFrame(draw);
