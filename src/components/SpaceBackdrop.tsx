@@ -10,10 +10,12 @@ type Star = {
   warm: boolean;
 };
 
-type Route = {
-  p0: { x: number; y: number };
-  p1: { x: number; y: number };
-  p2: { x: number; y: number };
+type Orbit = {
+  cx: number;
+  cy: number;
+  rx: number;
+  ry: number;
+  rotation: number;
   color: string;
   width: number;
 };
@@ -23,31 +25,41 @@ type SpaceBackdropProps = {
   className?: string;
 };
 
-function quadraticPoint(
-  t: number,
-  p0: { x: number; y: number },
-  p1: { x: number; y: number },
-  p2: { x: number; y: number },
+function ellipsePoint(
+  angle: number,
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  rotation: number,
 ) {
-  const oneMinusT = 1 - t;
-  const x =
-    oneMinusT * oneMinusT * p0.x + 2 * oneMinusT * t * p1.x + t * t * p2.x;
-  const y =
-    oneMinusT * oneMinusT * p0.y + 2 * oneMinusT * t * p1.y + t * t * p2.y;
+  const cosA = Math.cos(angle);
+  const sinA = Math.sin(angle);
+  const cosR = Math.cos(rotation);
+  const sinR = Math.sin(rotation);
+
+  const x = cx + rx * cosA * cosR - ry * sinA * sinR;
+  const y = cy + rx * cosA * sinR + ry * sinA * cosR;
 
   return { x, y };
 }
 
-function quadraticTangent(
-  t: number,
-  p0: { x: number; y: number },
-  p1: { x: number; y: number },
-  p2: { x: number; y: number },
+function ellipseTangent(
+  angle: number,
+  rx: number,
+  ry: number,
+  rotation: number,
 ) {
-  const x = 2 * (1 - t) * (p1.x - p0.x) + 2 * t * (p2.x - p1.x);
-  const y = 2 * (1 - t) * (p1.y - p0.y) + 2 * t * (p2.y - p1.y);
+  const dx = -rx * Math.sin(angle);
+  const dy = ry * Math.cos(angle);
 
-  return { x, y };
+  const cosR = Math.cos(rotation);
+  const sinR = Math.sin(rotation);
+
+  const tx = dx * cosR - dy * sinR;
+  const ty = dx * sinR + dy * cosR;
+
+  return { x: tx, y: ty };
 }
 
 export function SpaceBackdrop({
@@ -80,13 +92,14 @@ export function SpaceBackdrop({
     let animationFrame = 0;
     let stars: Star[] = [];
 
-    let activeRouteIndex = 0;
-    let routeProgress = 0.14;
-    let direction = 1;
+    let activeOrbitIndex = 1;
+    let orbitAngle = 3.9;
+    let orbitSpeed = 0.0012;
+    let orbitDirection = 1;
 
-    let satelliteVisible = true;
+    let satelliteAlpha = 1;
+    let phase: "visible" | "fadingOut" | "hidden" | "fadingIn" = "visible";
     let hiddenUntil = 0;
-    let lastSwitchTime = 0;
 
     function createStars() {
       const count = Math.round(
@@ -114,40 +127,52 @@ export function SpaceBackdrop({
       createStars();
     }
 
-    function getRoutes(): Route[] {
+    function getOrbits(): Orbit[] {
+      const rotation = -0.22;
+
       return [
         {
-          p0: { x: width * 0.48, y: height * 0.62 },
-          p1: { x: width * 0.72, y: height * 0.28 },
-          p2: { x: width * 0.96, y: height * 0.12 },
-          color: "rgba(105, 169, 221, 0.14)",
-          width: 1.0,
+          cx: width * 0.88,
+          cy: height * 1.18,
+          rx: width * 0.88,
+          ry: height * 0.34,
+          rotation,
+          color: "rgba(105, 169, 221, 0.13)",
+          width: 1,
         },
         {
-          p0: { x: width * 0.54, y: height * 0.7 },
-          p1: { x: width * 0.78, y: height * 0.5 },
-          p2: { x: width * 1.02, y: height * 0.4 },
-          color: "rgba(57, 216, 208, 0.16)",
+          cx: width * 0.92,
+          cy: height * 1.1,
+          rx: width * 0.98,
+          ry: height * 0.4,
+          rotation,
+          color: "rgba(57, 216, 208, 0.17)",
           width: 1.15,
         },
         {
-          p0: { x: width * 0.6, y: height * 0.8 },
-          p1: { x: width * 0.84, y: height * 0.68 },
-          p2: { x: width * 1.02, y: height * 0.6 },
-          color: "rgba(105, 169, 221, 0.12)",
-          width: 1.0,
+          cx: width * 0.98,
+          cy: height * 1.04,
+          rx: width * 1.08,
+          ry: height * 0.46,
+          rotation,
+          color: "rgba(105, 169, 221, 0.11)",
+          width: 1,
         },
         {
-          p0: { x: width * 0.66, y: height * 0.94 },
-          p1: { x: width * 0.88, y: height * 0.84 },
-          p2: { x: width * 1.02, y: height * 0.76 },
-          color: "rgba(57, 216, 208, 0.10)",
+          cx: width * 1.02,
+          cy: height * 1.0,
+          rx: width * 1.18,
+          ry: height * 0.53,
+          rotation,
+          color: "rgba(57, 216, 208, 0.09)",
           width: 0.95,
         },
         {
-          p0: { x: width * 0.74, y: height * 1.04 },
-          p1: { x: width * 0.92, y: height * 0.96 },
-          p2: { x: width * 1.03, y: height * 0.9 },
+          cx: width * 1.08,
+          cy: height * 0.96,
+          rx: width * 1.28,
+          ry: height * 0.6,
+          rotation,
           color: "rgba(105, 169, 221, 0.08)",
           width: 0.9,
         },
@@ -235,34 +260,44 @@ export function SpaceBackdrop({
       });
     }
 
-    function drawRoutes(routes: Route[]) {
-      routes.forEach((route) => {
+    function drawOrbits(orbits: Orbit[]) {
+      orbits.forEach((orbit) => {
         drawingContext.save();
-        drawingContext.strokeStyle = route.color;
-        drawingContext.lineWidth = route.width;
+        drawingContext.strokeStyle = orbit.color;
+        drawingContext.lineWidth = orbit.width;
         drawingContext.beginPath();
-        drawingContext.moveTo(route.p0.x, route.p0.y);
-        drawingContext.quadraticCurveTo(
-          route.p1.x,
-          route.p1.y,
-          route.p2.x,
-          route.p2.y,
+        drawingContext.ellipse(
+          orbit.cx,
+          orbit.cy,
+          orbit.rx,
+          orbit.ry,
+          orbit.rotation,
+          0,
+          Math.PI * 2,
         );
         drawingContext.stroke();
         drawingContext.restore();
       });
     }
 
-    function drawSatellite(route: Route, t: number) {
-      const point = quadraticPoint(t, route.p0, route.p1, route.p2);
-      const tangent = quadraticTangent(t, route.p0, route.p1, route.p2);
-      const angle = Math.atan2(tangent.y, tangent.x);
+    function drawSatellite(orbit: Orbit, angle: number, alpha: number) {
+      const point = ellipsePoint(
+        angle,
+        orbit.cx,
+        orbit.cy,
+        orbit.rx,
+        orbit.ry,
+        orbit.rotation,
+      );
+      const tangent = ellipseTangent(angle, orbit.rx, orbit.ry, orbit.rotation);
+      const rotation = Math.atan2(tangent.y, tangent.x);
 
       drawingContext.save();
+      drawingContext.globalAlpha = alpha;
       drawingContext.translate(point.x, point.y);
-      drawingContext.rotate(angle);
+      drawingContext.rotate(rotation);
 
-      const trail = drawingContext.createLinearGradient(-30, 0, 0, 0);
+      const trail = drawingContext.createLinearGradient(-28, 0, 0, 0);
       trail.addColorStop(0, "rgba(244,247,251,0)");
       trail.addColorStop(1, "rgba(244,247,251,0.18)");
       drawingContext.strokeStyle = trail;
@@ -272,13 +307,13 @@ export function SpaceBackdrop({
       drawingContext.lineTo(-5, 0);
       drawingContext.stroke();
 
-      drawingContext.fillStyle = "rgba(57,216,208,0.88)";
-      drawingContext.shadowColor = "rgba(57,216,208,0.36)";
+      drawingContext.fillStyle = "rgba(57,216,208,0.9)";
+      drawingContext.shadowColor = "rgba(57,216,208,0.35)";
       drawingContext.shadowBlur = 8;
       drawingContext.fillRect(-3.3, -2.3, 6.6, 4.6);
 
       drawingContext.shadowBlur = 0;
-      drawingContext.fillStyle = "rgba(105,169,221,0.72)";
+      drawingContext.fillStyle = "rgba(105,169,221,0.74)";
       drawingContext.fillRect(-11.5, -1.6, 6.4, 3.2);
       drawingContext.fillRect(5.1, -1.6, 6.4, 3.2);
 
@@ -294,23 +329,22 @@ export function SpaceBackdrop({
       drawingContext.restore();
     }
 
-    function switchRoute(time: number, routes: Route[]) {
-      if (time - lastSwitchTime < 6000) {
-        return;
+    function chooseNextOrbit(orbits: Orbit[]) {
+      let nextIndex = activeOrbitIndex;
+
+      while (nextIndex === activeOrbitIndex && orbits.length > 1) {
+        nextIndex = Math.floor(Math.random() * orbits.length);
       }
 
-      lastSwitchTime = time;
+      activeOrbitIndex = nextIndex;
+      orbitDirection = Math.random() > 0.5 ? 1 : -1;
+      orbitSpeed = 0.001 + Math.random() * 0.00035;
 
-      let nextIndex = activeRouteIndex;
-      while (nextIndex === activeRouteIndex && routes.length > 1) {
-        nextIndex = Math.floor(Math.random() * routes.length);
+      if (orbitDirection === 1) {
+        orbitAngle = 3.85 + Math.random() * 0.15;
+      } else {
+        orbitAngle = 5.35 + Math.random() * 0.15;
       }
-
-      activeRouteIndex = nextIndex;
-      direction = Math.random() > 0.5 ? 1 : -1;
-      routeProgress = direction === 1 ? 0.1 : 0.9;
-      satelliteVisible = false;
-      hiddenUntil = time + 1200;
     }
 
     function draw(time = 0) {
@@ -319,26 +353,47 @@ export function SpaceBackdrop({
       drawBackground();
       drawStars(time);
 
-      const routes = getRoutes();
-      drawRoutes(routes);
+      const orbits = getOrbits();
+      drawOrbits(orbits);
 
       if (reducedMotion) {
-        drawSatellite(routes[1], 0.34);
+        drawSatellite(orbits[1], 4.45, 1);
       } else {
-        if (satelliteVisible) {
-          routeProgress += 0.00035 * direction;
+        if (phase === "visible") {
+          orbitAngle += orbitSpeed * orbitDirection;
 
-          if (routeProgress >= 0.9 || routeProgress <= 0.1) {
-            satelliteVisible = false;
-            hiddenUntil = time + 1000;
+          if (
+            (orbitDirection === 1 && orbitAngle >= 5.38) ||
+            (orbitDirection === -1 && orbitAngle <= 3.88)
+          ) {
+            phase = "fadingOut";
           }
-        } else if (time >= hiddenUntil) {
-          switchRoute(time, routes);
-          satelliteVisible = true;
+        } else if (phase === "fadingOut") {
+          satelliteAlpha -= 0.02;
+
+          if (satelliteAlpha <= 0) {
+            satelliteAlpha = 0;
+            phase = "hidden";
+            hiddenUntil = time + 900;
+          }
+        } else if (phase === "hidden") {
+          if (time >= hiddenUntil) {
+            chooseNextOrbit(orbits);
+            phase = "fadingIn";
+          }
+        } else if (phase === "fadingIn") {
+          satelliteAlpha += 0.02;
+
+          if (satelliteAlpha >= 1) {
+            satelliteAlpha = 1;
+            phase = "visible";
+          }
+
+          orbitAngle += orbitSpeed * orbitDirection;
         }
 
-        if (satelliteVisible) {
-          drawSatellite(routes[activeRouteIndex], routeProgress);
+        if (phase !== "hidden") {
+          drawSatellite(orbits[activeOrbitIndex], orbitAngle, satelliteAlpha);
         }
       }
 
