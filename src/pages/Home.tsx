@@ -117,9 +117,7 @@ export function Home() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="h-2 w-2 rounded-full bg-signal-teal shadow-[0_0_10px_rgba(57,216,208,0.5)]" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-signal-blue">
-                      Focus
-                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-signal-blue"></span>
                   </div>
                   <p className="mt-4 text-base font-semibold leading-7 text-steel-100">
                     {item.title}
