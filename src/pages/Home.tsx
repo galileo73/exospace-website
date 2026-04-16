@@ -13,9 +13,21 @@ const heroSignals = [
 ];
 
 const heroHighlights = [
-  "Requirements, architecture and interface control",
-  "Verification, validation and operational readiness",
-  "Independent technical reviews and expert assessments",
+  {
+    title: "Requirements, architecture and interface control",
+    detail:
+      "Structured support for technical definition and coherent system baselines.",
+  },
+  {
+    title: "Verification, validation and operational readiness",
+    detail:
+      "Preparation for reviews, evidence management and delivery confidence.",
+  },
+  {
+    title: "Independent technical reviews and expert assessments",
+    detail:
+      "Focused judgement for complex decisions, risk areas and programme milestones.",
+  },
 ];
 
 const engagementExamples = [
@@ -68,12 +80,6 @@ export function Home() {
                   View services
                 </ButtonLink>
               </div>
-
-              <div className="mt-8 grid gap-3 border-t border-white/[0.14] pt-5 text-sm text-steel-300 md:grid-cols-3">
-                {heroHighlights.map((item) => (
-                  <p key={item}>{item}</p>
-                ))}
-              </div>
             </div>
 
             <aside className="rounded-md border border-white/[0.15] bg-[linear-gradient(180deg,rgba(3,7,13,0.72),rgba(7,16,24,0.62))] p-5 shadow-glow backdrop-blur-md">
@@ -96,6 +102,34 @@ export function Home() {
                 delivery phases and technical decision points.
               </p>
             </aside>
+          </div>
+
+          <div className="relative mx-auto max-w-7xl px-5 pb-12 md:px-8 lg:pb-14">
+            <div className="grid gap-4 md:grid-cols-3">
+              {heroHighlights.map((item, index) => (
+                <div
+                  key={item.title}
+                  className={`rounded-md border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm ${
+                    index < heroHighlights.length - 1
+                      ? "md:border-r md:border-r-white/10"
+                      : ""
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="h-2 w-2 rounded-full bg-signal-teal shadow-[0_0_10px_rgba(57,216,208,0.5)]" />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-signal-blue">
+                      Focus
+                    </span>
+                  </div>
+                  <p className="mt-4 text-base font-semibold leading-7 text-steel-100">
+                    {item.title}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-steel-400">
+                    {item.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
