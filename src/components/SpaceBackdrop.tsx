@@ -69,6 +69,7 @@ export function SpaceBackdrop({
       return;
     }
 
+    const canvasElement = canvas;
     const drawingContext = context;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -78,6 +79,7 @@ export function SpaceBackdrop({
     let height = 0;
     let animationFrame = 0;
     let stars: Star[] = [];
+
     let activeRouteIndex = 0;
     let routeProgress = 0.16;
     let direction = 1;
@@ -101,10 +103,10 @@ export function SpaceBackdrop({
 
     function resize() {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      width = canvas.offsetWidth;
-      height = canvas.offsetHeight;
-      canvas.width = Math.floor(width * pixelRatio);
-      canvas.height = Math.floor(height * pixelRatio);
+      width = canvasElement.offsetWidth;
+      height = canvasElement.offsetHeight;
+      canvasElement.width = Math.floor(width * pixelRatio);
+      canvasElement.height = Math.floor(height * pixelRatio);
       drawingContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       createStars();
     }
@@ -166,7 +168,7 @@ export function SpaceBackdrop({
         height * 0.2,
         width * 0.16,
       );
-      leftBloom.addColorStop(0, "rgba(243, 199, 117, 0.10)");
+      leftBloom.addColorStop(0, "rgba(243, 199, 117, 0.1)");
       leftBloom.addColorStop(0.48, "rgba(243, 199, 117, 0.03)");
       leftBloom.addColorStop(1, "rgba(243, 199, 117, 0)");
       drawingContext.fillStyle = leftBloom;
@@ -232,7 +234,7 @@ export function SpaceBackdrop({
       });
     }
 
-    function drawNodes(routes: Route[]) {
+    function drawNodes() {
       const nodes = [
         { x: width * 0.62, y: height * 0.56, r: 3.2 },
         { x: width * 0.78, y: height * 0.44, r: 3.6 },
@@ -261,8 +263,6 @@ export function SpaceBackdrop({
       drawingContext.lineTo(width * 0.88, height * 0.3);
       drawingContext.stroke();
       drawingContext.restore();
-
-      void routes;
     }
 
     function drawSatellite(route: Route, t: number) {
@@ -331,7 +331,7 @@ export function SpaceBackdrop({
 
       const routes = getRoutes();
       drawRoutes(routes);
-      drawNodes(routes);
+      drawNodes();
 
       if (reducedMotion) {
         drawSatellite(routes[1], 0.34);
