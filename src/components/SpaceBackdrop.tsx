@@ -20,7 +20,7 @@ type Orbit = {
   width: number;
   startAngle: number;
   endAngle: number;
-  speed: number;
+  speed: number; // radians per second
 };
 
 type SpaceBackdropProps = {
@@ -41,10 +41,10 @@ function ellipsePoint(
   const cosR = Math.cos(rotation);
   const sinR = Math.sin(rotation);
 
-  const x = cx + rx * cosA * cosR - ry * sinA * sinR;
-  const y = cy + rx * cosA * sinR + ry * sinA * cosR;
-
-  return { x, y };
+  return {
+    x: cx + rx * cosA * cosR - ry * sinA * sinR,
+    y: cy + rx * cosA * sinR + ry * sinA * cosR,
+  };
 }
 
 function ellipseTangent(
@@ -132,64 +132,64 @@ export function SpaceBackdrop({
     function getOrbits(): Orbit[] {
       return [
         {
-          cx: width * 0.9,
-          cy: height * 1.22,
+          cx: width * 0.86,
+          cy: height * 1.26,
+          rx: width * 0.78,
+          ry: height * 0.16,
+          rotation: -0.26,
+          color: "rgba(105, 169, 221, 0.08)",
+          width: 0.9,
+          startAngle: 4.02,
+          endAngle: 5.36,
+          speed: 0.018,
+        },
+        {
+          cx: width * 0.94,
+          cy: height * 1.16,
           rx: width * 0.92,
           ry: height * 0.24,
-          rotation: -0.2,
-          color: "rgba(105, 169, 221, 0.10)",
-          width: 0.95,
-          startAngle: 3.95,
-          endAngle: 5.38,
-          speed: 0.00009,
+          rotation: -0.22,
+          color: "rgba(105, 169, 221, 0.11)",
+          width: 1.0,
+          startAngle: 3.94,
+          endAngle: 5.3,
+          speed: 0.02,
         },
         {
           cx: width * 1.0,
           cy: height * 1.08,
-          rx: width * 1.0,
+          rx: width * 1.02,
           ry: height * 0.34,
-          rotation: -0.22,
-          color: "rgba(57, 216, 208, 0.18)",
-          width: 1.2,
+          rotation: -0.2,
+          color: "rgba(57, 216, 208, 0.16)",
+          width: 1.15,
           startAngle: 3.88,
-          endAngle: 5.28,
-          speed: 0.00008,
+          endAngle: 5.22,
+          speed: 0.021,
         },
         {
           cx: width * 1.08,
           cy: height * 0.98,
-          rx: width * 1.12,
-          ry: height * 0.46,
-          rotation: -0.16,
-          color: "rgba(105, 169, 221, 0.11)",
-          width: 1,
+          rx: width * 1.16,
+          ry: height * 0.48,
+          rotation: -0.14,
+          color: "rgba(105, 169, 221, 0.10)",
+          width: 1.0,
           startAngle: 3.82,
-          endAngle: 5.18,
-          speed: 0.00008,
+          endAngle: 5.12,
+          speed: 0.017,
         },
         {
           cx: width * 1.18,
           cy: height * 0.9,
-          rx: width * 1.25,
+          rx: width * 1.3,
           ry: height * 0.62,
-          rotation: -0.12,
-          color: "rgba(57, 216, 208, 0.10)",
+          rotation: -0.1,
+          color: "rgba(57, 216, 208, 0.08)",
           width: 0.95,
           startAngle: 3.78,
-          endAngle: 5.1,
-          speed: 0.00008,
-        },
-        {
-          cx: width * 0.82,
-          cy: height * 1.28,
-          rx: width * 0.82,
-          ry: height * 0.18,
-          rotation: -0.26,
-          color: "rgba(105, 169, 221, 0.08)",
-          width: 0.9,
-          startAngle: 4.0,
-          endAngle: 5.42,
-          speed: 0.00008,
+          endAngle: 5.04,
+          speed: 0.015,
         },
       ];
     }
@@ -207,7 +207,7 @@ export function SpaceBackdrop({
     }
 
     function initializeOrbit(orbits: Orbit[]) {
-      activeOrbitIndex = 1;
+      activeOrbitIndex = 2;
       currentAngle = orbits[activeOrbitIndex].startAngle;
       currentSpeed = orbits[activeOrbitIndex].speed;
     }
@@ -330,33 +330,33 @@ export function SpaceBackdrop({
       drawingContext.translate(point.x, point.y);
       drawingContext.rotate(rotation);
 
-      const trail = drawingContext.createLinearGradient(-22, 0, 0, 0);
+      const trail = drawingContext.createLinearGradient(-18, 0, 0, 0);
       trail.addColorStop(0, "rgba(244,247,251,0)");
-      trail.addColorStop(1, "rgba(244,247,251,0.14)");
+      trail.addColorStop(1, "rgba(244,247,251,0.12)");
       drawingContext.strokeStyle = trail;
-      drawingContext.lineWidth = 0.9;
+      drawingContext.lineWidth = 0.8;
       drawingContext.beginPath();
-      drawingContext.moveTo(-18, 0);
+      drawingContext.moveTo(-15, 0);
       drawingContext.lineTo(-4, 0);
       drawingContext.stroke();
 
-      drawingContext.fillStyle = "rgba(57,216,208,0.88)";
-      drawingContext.shadowColor = "rgba(57,216,208,0.32)";
-      drawingContext.shadowBlur = 8;
-      drawingContext.fillRect(-2.8, -2.0, 5.6, 4.0);
+      drawingContext.fillStyle = "rgba(57,216,208,0.84)";
+      drawingContext.shadowColor = "rgba(57,216,208,0.28)";
+      drawingContext.shadowBlur = 7;
+      drawingContext.fillRect(-2.4, -1.7, 4.8, 3.4);
 
       drawingContext.shadowBlur = 0;
-      drawingContext.fillStyle = "rgba(105,169,221,0.72)";
-      drawingContext.fillRect(-9.5, -1.35, 5.2, 2.7);
-      drawingContext.fillRect(4.3, -1.35, 5.2, 2.7);
+      drawingContext.fillStyle = "rgba(105,169,221,0.68)";
+      drawingContext.fillRect(-7.8, -1.1, 4.2, 2.2);
+      drawingContext.fillRect(3.6, -1.1, 4.2, 2.2);
 
-      drawingContext.strokeStyle = "rgba(244,247,251,0.26)";
-      drawingContext.lineWidth = 0.7;
+      drawingContext.strokeStyle = "rgba(244,247,251,0.22)";
+      drawingContext.lineWidth = 0.65;
       drawingContext.beginPath();
-      drawingContext.moveTo(-4.2, 0);
-      drawingContext.lineTo(-9.5, 0);
-      drawingContext.moveTo(4.2, 0);
-      drawingContext.lineTo(9.5, 0);
+      drawingContext.moveTo(-3.5, 0);
+      drawingContext.lineTo(-7.8, 0);
+      drawingContext.moveTo(3.5, 0);
+      drawingContext.lineTo(7.8, 0);
       drawingContext.stroke();
 
       drawingContext.restore();
@@ -376,9 +376,9 @@ export function SpaceBackdrop({
       }
 
       if (reducedMotion) {
-        drawSatellite(orbits[1] ?? orbits[0], 4.4, 1);
+        drawSatellite(orbits[2] ?? orbits[0], 4.35, 1);
       } else {
-        const delta = lastTime ? time - lastTime : 16;
+        const delta = lastTime ? (time - lastTime) / 1000 : 0.016;
         lastTime = time;
 
         const activeOrbit = orbits[activeOrbitIndex];
@@ -386,17 +386,16 @@ export function SpaceBackdrop({
         if (phase === "visible") {
           currentAngle += currentSpeed * delta;
 
-          if (currentAngle >= activeOrbit.endAngle - 0.12) {
+          if (currentAngle >= activeOrbit.endAngle - 0.08) {
             phase = "fadingOut";
           }
         } else if (phase === "fadingOut") {
-          currentAngle += currentSpeed * delta;
-          satelliteAlpha -= 0.0026 * delta;
+          satelliteAlpha -= 1.15 * delta;
 
           if (satelliteAlpha <= 0) {
             satelliteAlpha = 0;
             phase = "hidden";
-            hiddenUntil = time + 1400;
+            hiddenUntil = time + 1600;
           }
         } else if (phase === "hidden") {
           if (time >= hiddenUntil) {
@@ -404,8 +403,7 @@ export function SpaceBackdrop({
             phase = "fadingIn";
           }
         } else if (phase === "fadingIn") {
-          currentAngle += currentSpeed * delta;
-          satelliteAlpha += 0.0022 * delta;
+          satelliteAlpha += 0.9 * delta;
 
           if (satelliteAlpha >= 1) {
             satelliteAlpha = 1;
